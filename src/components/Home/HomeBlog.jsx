@@ -38,7 +38,7 @@ const blogLinks = [
 
 export default function NewsArticlesSection() {
   return (
-    <section className="bg-[#f4f4f4] px-6 md:px-20 py-16 text-black">
+    <section className="bg-[#f4f4f4] px-4 md:px-20 py-16 text-black">
       <p className="text-secondary font-medium mb-2 flex md:justify-center justify-start items-center gap-2">
           <span className="w-5 h-px bg-secondary inline-block"></span>
           Facilities

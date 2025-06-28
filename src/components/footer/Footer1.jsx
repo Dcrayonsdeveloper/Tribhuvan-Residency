@@ -4,7 +4,7 @@ import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaArrowUp } from "react-icons/f
 
 export default function Footer() {
   return (
-    <footer className="bg-[#f4f4f4] text-gray-700 pt-12 px-6 md:px-20 pb-6 relative">
+    <footer className="bg-[#f4f4f4] text-gray-700 pt-12 px-4 md:px-20 pb-6 relative">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
         <h2 className="md:text-4xl  text-2xl font-serif font-semibold text-gray-900">Lorem Ipsum Dolor</h2>
         <form className="flex w-full md:w-auto">
