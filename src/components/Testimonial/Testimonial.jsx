@@ -43,7 +43,7 @@ export default function Testimonial() {
   ];
 
   return (
-    <section className="md:py-16 py-8 bg-white px-4 md:px-0">
+    <section className="md:py-16 py-8 bg-white px-4 md:px-0 pt-40 md:pt-0">
       <div className="max-w-6xl mx-auto text-left relative">
         <p className="text-secondary font-medium mb-2 flex items-center gap-2 justify-start">
           <span className="w-5 h-px bg-secondary inline-block"></span>
