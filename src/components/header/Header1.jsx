@@ -126,12 +126,13 @@ const Header = () => {
               <div key={index} className="relative flex flex-col">
                 <div
                   className="flex justify-between items-center cursor-pointer"
-                  onClick={() => handleToggle(index)}
+                  
                 >
                   <Link href={item.href} className="flex items-center gap-1">
                     {item.label}
                   </Link>
                   <IoIosArrowDown
+                  onClick={() => handleToggle(index)}
                     className={`transition-transform duration-300 ${
                       openIndex === index ? "rotate-180" : ""
                     }`}
