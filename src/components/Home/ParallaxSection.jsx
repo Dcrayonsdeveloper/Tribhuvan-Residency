@@ -7,7 +7,6 @@ import { FaPlay } from "react-icons/fa";
 export default function ParallaxSection() {
   const [showVideo, setShowVideo] = useState(false);
 
-  // 🔒 Lock scroll when video is open
   useEffect(() => {
     if (showVideo) {
       document.body.classList.add("overflow-hidden");

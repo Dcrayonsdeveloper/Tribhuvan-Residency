@@ -7,9 +7,8 @@ import image2 from "../../../public/images/home/hero_img2.png";
 
 const AboutUsSection = () => {
   return (
-    <section className="bg-white md:pt-36 pt-16 py-16">
-      <div className="max-w-6xl md:mx-16 flex flex-col lg:flex-row md:px-6 px-4 gap-10 relative justify-between">
-        {/* Image Section */}
+    <section className="bg-white md:pt-36 pt-16 py-16 mx-auto max-w-7xl">
+      <div className="  md:mx-16 flex flex-col lg:flex-row md:px-6 px-4 gap-10 relative justify-between">
         <div className="relative w-full hidden md:block lg:w-[40%]">
           <div className="rounded-xl overflow-hidden shadow-lg h-[550px]">
             <Image
@@ -41,7 +40,6 @@ const AboutUsSection = () => {
           </div>
         </div>
 
-        {/* Content Section */}
         <div className="w-full lg:w-1/2">
           <p className="text-secondary font-medium mb-2 flex items-center gap-2">
             <span className="w-5 h-px bg-secondary inline-block"></span>

@@ -1,6 +1,11 @@
 "use client";
 import { useState } from "react";
-import { FaPhoneAlt,FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaPhoneAlt,
+  FaPhone,
+  FaEnvelope,
+  FaMapMarkerAlt,
+} from "react-icons/fa";
 import { IoIosArrowDown, IoIosClose } from "react-icons/io";
 import { HiOutlineMenu } from "react-icons/hi";
 import Image from "next/image";
@@ -29,35 +34,29 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Main Navigation */}
       <div className="flex justify-between items-center md:px-12 px-4 py-4">
-        {/* Left - Nav Links (Desktop) */}
         <nav className="hidden lg:flex items-center gap-6 text-gray-600 font-normal">
-          <div className="relative group cursor-pointer">
-            <Link href="/" className="flex items-center justify-between gap-1">
-              Home 
-            </Link>
-          </div>
-          <div className="relative group cursor-pointer">
-           <Link href="/rooms" className="flex items-center justify-between gap-1">
-              Rooms 
-            </Link>
-          </div>
-          <div className="relative group cursor-pointer">
-            <Link href="/about" className="flex items-center justify-between gap-1">
-              About 
-            </Link>
-          </div>
-          <div className="relative group cursor-pointer">
-           <Link href="/contact" className="flex items-center justify-between gap-1">
-              Contact 
-            </Link>
-          </div>
-          <span className="cursor-pointer">Blog</span>
+          {[
+            { label: "Home", href: "/" },
+            { label: "Rooms", href: "/rooms" },
+            { label: "About", href: "/about" },
+            { label: "Contact", href: "/contact" },
+            { label: "Blogs", href: "/blogs" },
+            { label: "FAQs", href: "/faqs" },
+          ].map((item) => (
+            <div key={item.href} className="relative group cursor-pointer">
+              <Link
+                href={item.href}
+                className="flex flex-col items-center justify-between"
+              >
+                <span>{item.label}</span>
+                <span className="block h-0.5 bg-secondary transition-transform duration-300 origin-left scale-x-0 group-hover:scale-x-100 w-full"></span>
+              </Link>
+            </div>
+          ))}
         </nav>
 
         <div className="flex items-center gap-2">
-          {/* Logo */}
           <h1 className="text-2xl font-serif text-[#0e1428]">Lorem</h1>
         </div>
 
@@ -68,9 +67,11 @@ const Header = () => {
           <button className="px-5 py-2 border cursor-pointer border-gray-400 rounded-md text-gray-700 font-semibold hover:bg-gray-50">
             Sign Up
           </button>
-          <button className="px-5 py-2 rounded-md border-gray-400 bg-primary text-white font-semibold ">
-            Book Now
-          </button>
+          <Link href="/rooms">
+            <button className="cursor-pointer px-5 py-2 rounded-md border-gray-400 bg-primary text-white font-semibold ">
+              Book Now
+            </button>
+          </Link>
         </div>
 
         <div className="lg:hidden flex items-center">
@@ -107,36 +108,55 @@ const Header = () => {
 
           <div className="w-full space-y-3">
             <div className="relative group cursor-pointer flex justify-between items-center">
-              <div className="flex items-center justify-between gap-1">
+              <Link
+                href="/"
+                className="flex items-center justify-between gap-1"
+              >
                 Home
-              </div>
-              <div>
-                <IoIosArrowDown />
-              </div>
+              </Link>
+              <div>{/* <IoIosArrowDown /> */}</div>
             </div>
             <div className="relative group cursor-pointer flex justify-between items-center">
-              <div className="flex items-center justify-between gap-1">
-                Blog
-              </div>
-              <div>
-                <IoIosArrowDown />
-              </div>
+              <Link
+                href="/rooms"
+                className="flex items-center justify-between gap-1"
+              >
+                Rooms
+              </Link>
+              <div>{/* <IoIosArrowDown /> */}</div>
             </div>
             <div className="relative group cursor-pointer flex justify-between items-center">
-              <div className="flex items-center justify-between gap-1">
-                Home
-              </div>
-              <div>
-                <IoIosArrowDown />
-              </div>
+              <Link
+                href="/about"
+                className="flex items-center justify-between gap-1"
+              >
+                About
+              </Link>
+              <div>{/* <IoIosArrowDown /> */}</div>
             </div>
             <div className="relative group cursor-pointer flex justify-between items-center">
-              <div className="flex items-center justify-between gap-1">
-                Home
-              </div>
-              <div>
-                <IoIosArrowDown />
-              </div>
+              <Link
+                href="/contact"
+                className="flex items-center justify-between gap-1"
+              >
+                Contact
+              </Link>
+            </div>
+            <div className="relative group cursor-pointer flex justify-between items-center">
+              <Link
+                href="/blogs"
+                className="flex items-center justify-between gap-1"
+              >
+                Blogs
+              </Link>
+            </div>
+            <div className="relative group cursor-pointer flex justify-between items-center">
+              <Link
+                href="/faqs"
+                className="flex items-center justify-between gap-1"
+              >
+                Faq
+              </Link>
             </div>
           </div>
 

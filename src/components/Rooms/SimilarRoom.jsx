@@ -17,8 +17,7 @@ const RoomCard = ({ room }) => {
   };
 
   return (
-    <div className="w-full max-w-sm p-4 bg-white shadow-lg rounded-lg relative mb-6">
-      
+    <div className="w-full  p-4 bg-white shadow-lg rounded-lg relative mb-6">      
       <div className="relative">
         <Image
           src={room.image}
@@ -80,7 +79,7 @@ const SimilarRooms = () => {
   ];
 
   return (
-    <section className="pt-8 max-w-7xl md:px-8 px-4">
+    <section className="pt-8 max-w-7xl mx-auto md:px-8 px-4">
       <p className="text-secondary font-medium mb-2 flex justify-start md:justify-center items-center gap-2">
         <span className="w-5 h-px bg-secondary inline-block"></span>
         Facilities

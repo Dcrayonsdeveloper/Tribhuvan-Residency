@@ -26,7 +26,7 @@ const TeamMember = ({ name, role, socials }) => {
 
 const TeamSection = () => {
   return (
-    <section className="py-16 max-w-7xl text-left md:text-center">
+    <section className="py-16 max-w-7xl mx-auto text-left md:text-center">
       <div className="md:px-20 px-4  pb-4">
         <p className="text-secondary font-medium mb-2 flex justify-left md:justify-center items-center gap-2">
           <span className="w-5 h-px bg-secondary inline-block"></span>
