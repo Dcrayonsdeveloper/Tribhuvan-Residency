@@ -109,12 +109,9 @@ const AddReview = ({ onReviewSubmit }) => {
           required
         />
 
-        <button
-          type="submit"
-          className="bg-secondary text-white px-5 py-3 cursor-pointer font-semibold uppercase tracking-wide rounded-lg hover:bg-[#b28953]"
-        >
-          Submit Review
-        </button>
+       <button className="relative overflow-hidden bg-primary cursor-pointer w-full md:w-auto text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 ease-in-out before:absolute before:top-0 before:left-0 before:w-0 before:h-full before:bg-[#4e6956f7] hover:before:w-full before:transition-all before:duration-300 before:ease-in-out">
+            <span className="relative z-10">Submit Review</span>
+          </button>
       </form>
     </div>
   );

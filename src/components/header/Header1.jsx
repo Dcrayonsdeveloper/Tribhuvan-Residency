@@ -14,6 +14,21 @@ import Link from "next/link";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const menuItems = [
+    { label: "Home", href: "/" },
+    { label: "Rooms", href: "/rooms" },
+    { label: "About", href: "/about" },
+    { label: "Contact", href: "/contact" },
+    { label: "Blogs", href: "/blogs" },
+    { label: "Faq", href: "/faqs" },
+  ];
+
+  const handleToggle = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
     <header className="border-b border-gray-400">
       {/* Top Bar */}
@@ -68,8 +83,8 @@ const Header = () => {
             Sign Up
           </button>
           <Link href="/rooms">
-            <button className="cursor-pointer px-5 py-2 rounded-md border-gray-400 bg-primary text-white font-semibold ">
-              Book Now
+            <button className="relative overflow-hidden bg-primary cursor-pointer w-full md:w-auto text-white font-semibold px-5 py-2 rounded-lg transition-all duration-300 ease-in-out before:absolute before:top-0 before:left-0 before:w-0 before:h-full before:bg-[#4e6956f7] hover:before:w-full before:transition-all before:duration-300 before:ease-in-out">
+              <span className="relative z-10">Book Now</span>
             </button>
           </Link>
         </div>
@@ -83,7 +98,7 @@ const Header = () => {
       </div>
 
       <div
-        className={`fixed w-[100%] top-0 left-0 w-64 h-full bg-white border-r border-gray-400 transform overflow-y-scroll ${
+        className={`fixed w-[100%] top-0 left-0 h-full bg-white border-r border-gray-400 transform overflow-y-scroll ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out z-50`}
       >
@@ -107,59 +122,43 @@ const Header = () => {
           </div>
 
           <div className="w-full space-y-3">
-            <div className="relative group cursor-pointer flex justify-between items-center">
-              <Link
-                href="/"
-                className="flex items-center justify-between gap-1"
-              >
-                Home
-              </Link>
-              <div>{/* <IoIosArrowDown /> */}</div>
-            </div>
-            <div className="relative group cursor-pointer flex justify-between items-center">
-              <Link
-                href="/rooms"
-                className="flex items-center justify-between gap-1"
-              >
-                Rooms
-              </Link>
-              <div>{/* <IoIosArrowDown /> */}</div>
-            </div>
-            <div className="relative group cursor-pointer flex justify-between items-center">
-              <Link
-                href="/about"
-                className="flex items-center justify-between gap-1"
-              >
-                About
-              </Link>
-              <div>{/* <IoIosArrowDown /> */}</div>
-            </div>
-            <div className="relative group cursor-pointer flex justify-between items-center">
-              <Link
-                href="/contact"
-                className="flex items-center justify-between gap-1"
-              >
-                Contact
-              </Link>
-            </div>
-            <div className="relative group cursor-pointer flex justify-between items-center">
-              <Link
-                href="/blogs"
-                className="flex items-center justify-between gap-1"
-              >
-                Blogs
-              </Link>
-            </div>
-            <div className="relative group cursor-pointer flex justify-between items-center">
-              <Link
-                href="/faqs"
-                className="flex items-center justify-between gap-1"
-              >
-                Faq
-              </Link>
-            </div>
-          </div>
+            {menuItems.map((item, index) => (
+              <div key={index} className="relative flex flex-col">
+                <div
+                  className="flex justify-between items-center cursor-pointer"
+                  onClick={() => handleToggle(index)}
+                >
+                  <Link href={item.href} className="flex items-center gap-1">
+                    {item.label}
+                  </Link>
+                  <IoIosArrowDown
+                    className={`transition-transform duration-300 ${
+                      openIndex === index ? "rotate-180" : ""
+                    }`}
+                  />
+                </div>
 
+                {openIndex === index && (
+                  <div className="mt-1 w-full bg-white rounded-md transition-all duration-300">
+                    <ul className="flex flex-col">
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        Lorem Ipsum 1
+                      </li>
+                      <hr className="border-gray-200" />
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        Lorem Ipsum 2
+                      </li>
+                      <hr className="border-gray-200" />
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        Lorem Ipsum 3
+                      </li>
+                      <hr className="border-gray-200" />
+                    </ul>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
           {/* Contact Info Section */}
           <div className="mt-6">
             <div className="mt-6">

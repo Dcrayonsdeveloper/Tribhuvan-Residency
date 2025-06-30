@@ -47,8 +47,8 @@ export default function ContactUs() {
             placeholder="Write a Message"
             className="w-full bg-[#f4f4f4] px-4 py-3 border border-transparent focus:border-[#c89c60] rounded h-60 mb-4"
           ></textarea>
-          <button className="py-3 px-6 bg-primary text-white rounded">
-            Send Message
+          <button className="relative overflow-hidden bg-primary cursor-pointer w-full md:w-auto text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 ease-in-out before:absolute before:top-0 before:left-0 before:w-0 before:h-full before:bg-[#4e6956f7] hover:before:w-full before:transition-all before:duration-300 before:ease-in-out">
+            <span className="relative z-10">Send Message</span>
           </button>
         </div>
 
