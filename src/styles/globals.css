@@ -2,8 +2,13 @@
 
 :root {
   --foreground: #fff;
-  --primary-green:#003812;
-  --secondary-green:#697416;
+  /* The Tribhuvan Residency brand palette (from the peacock logo) */
+  --primary-green:#8a5a2b;   /* rich bronze (primary) */
+  --primary-dark:#6d4621;    /* deep bronze (hover) */
+  --secondary-green:#b8902f; /* brand gold (accent) */
+  --gold-soft:#caa14a;
+  --espresso:#241a12;        /* dark sections */
+  --cream:#faf6ef;           /* warm light background */
 }
 
 .bg-primary{
@@ -12,12 +17,51 @@
 .bg-secondary{
   background-color: var(--secondary-green);
 }
+.bg-espresso{
+  background-color: var(--espresso);
+}
+.bg-cream{
+  background-color: var(--cream);
+}
 .text-secondary{
   color:var(--secondary-green);
 }
 .text-primary{
   color:var(--primary-green);
 }
+.border-secondary{ border-color: var(--secondary-green); }
+
+body { font-family: var(--font-body), system-ui, -apple-system, sans-serif; }
+.font-serif { font-family: var(--font-display), Georgia, "Times New Roman", serif; }
+
+/* Reusable brand button with sweeping hover fill */
+.btn-primary{
+  position:relative; overflow:hidden; display:inline-block;
+  background-color: var(--primary-green); color:#fff; font-weight:600;
+  padding:0.75rem 1.75rem; border-radius:0.5rem; cursor:pointer;
+  transition:all .3s ease-in-out;
+}
+.btn-primary::before{
+  content:""; position:absolute; top:0; left:0; width:0; height:100%;
+  background-color: var(--primary-dark);
+  transition:all .3s ease-in-out;
+}
+.btn-primary:hover::before{ width:100%; }
+.btn-primary > span{ position:relative; z-index:10; }
+
+.btn-gold{
+  position:relative; overflow:hidden; display:inline-block;
+  background-color: var(--secondary-green); color:#fff; font-weight:600;
+  padding:0.75rem 1.75rem; border-radius:0.5rem; cursor:pointer;
+  transition:all .3s ease-in-out;
+}
+.btn-gold::before{
+  content:""; position:absolute; top:0; left:0; width:0; height:100%;
+  background-color: var(--gold-soft);
+  transition:all .3s ease-in-out;
+}
+.btn-gold:hover::before{ width:100%; }
+.btn-gold > span{ position:relative; z-index:10; }
 
 .custom-swiper-pagination .swiper-pagination-bullet {
   background-color: #c5c5c5;
@@ -33,6 +77,14 @@
 }
 .card::before{
   content: "";
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.25s ease-out;
 }
 
 @keyframes spin-slow {

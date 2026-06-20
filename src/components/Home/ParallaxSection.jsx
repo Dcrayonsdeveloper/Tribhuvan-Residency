@@ -1,80 +1,55 @@
 "use client";
-import Image from "next/image";
-import React, { useState, useEffect } from "react";
-import image from "../../../public/images/home/parallex.png";
-import { FaPlay } from "react-icons/fa";
+import React from "react";
+import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
+import { site, whatsappLink } from "@/data/site";
+
+const PARALLAX_MSG =
+  "Hello! I'd like to book my divine stay at The Tribhuvan Residency, near Shree Ram Mandir, Ayodhya.";
 
 export default function ParallaxSection() {
-  const [showVideo, setShowVideo] = useState(false);
-
-  useEffect(() => {
-    if (showVideo) {
-      document.body.classList.add("overflow-hidden");
-    } else {
-      document.body.classList.remove("overflow-hidden");
-    }
-
-    return () => {
-      document.body.classList.remove("overflow-hidden");
-    };
-  }, [showVideo]);
-
   return (
     <section className="relative h-[500px] overflow-hidden my-16">
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-fixed bg-center bg-cover"
-        style={{ backgroundImage: `url(${image.src})` }}
+        style={{
+          backgroundImage: `url(/images/tribhuvan/super-deluxe-room.jpeg)`,
+        }}
       ></div>
-      <div className="absolute inset-0 bg-black/40"></div>
+      <div className="absolute inset-0 bg-black/60"></div>
 
-      {/* Circular Play Button */}
-      <div className="relative z-10 flex items-center justify-center h-full">
-        <div
-          className="relative w-44 h-44 rounded-full bg-[#687406]/70 flex items-center justify-center text-white border-1 border-[#687406] cursor-pointer"
-          onClick={() => setShowVideo(true)}
-        >
-          <svg
-            className="absolute w-full h-full animate-spin-slow"
-            viewBox="0 0 200 200"
+      {/* Centered CTA Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center text-center h-full px-4">
+        <p className="text-secondary font-medium tracking-[0.25em] uppercase text-sm mb-4 flex items-center gap-2">
+          <span className="w-5 h-px bg-secondary inline-block"></span>
+          Book Direct
+          <span className="w-5 h-px bg-secondary inline-block"></span>
+        </p>
+        <h2 className="font-serif text-white text-3xl md:text-5xl font-bold mb-5 max-w-3xl drop-shadow-lg">
+          Your Divine Stay Awaits in Ayodhya
+        </h2>
+        <p className="text-white/85 max-w-xl mb-8 md:text-lg">
+          Reserve your room just a short walk from the Ram Mandir and wake up to
+          early-morning aarti. We will take care of the rest.
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-center gap-5">
+          <a href={whatsappLink(PARALLAX_MSG)} target="_blank" rel="noopener noreferrer">
+            <button className="btn-gold">
+              <span className="flex items-center gap-2">
+                <FaWhatsapp /> Book Now
+              </span>
+            </button>
+          </a>
+          <a
+            href={`tel:${site.phone}`}
+            className="flex items-center gap-2 text-white text-lg font-semibold hover:text-secondary transition-colors"
           >
-            <defs>
-              <path
-                id="circle"
-                d="M 100, 100 m -75, 0 a 75,75 0 1,1 150,0 a 75,75 0 1,1 -150,0"
-              />
-            </defs>
-            <text fill="white" fontSize="17" fontWeight="300">
-              <textPath href="#circle" startOffset="0%">
-                * Watch Now * Watch Full Video * Watch Now * Watch Full Video *
-              </textPath>
-            </text>
-          </svg>
-
-          <FaPlay className="text-white text-3xl" />
+            <FaPhoneAlt className="text-secondary" />
+            {site.phoneDisplay}
+          </a>
         </div>
       </div>
-
-      {showVideo && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center w-full">
-          <div className="relative w-full max-w-3xl aspect-video">
-            <iframe
-              className="w-full h-full"
-              src="https://youtube.com/embed/UPRdectauDI"
-              title="YouTube video"
-              frameBorder="0"
-              allow="autoplay; fullscreen"
-              allowFullScreen
-            ></iframe>
-            <button
-              onClick={() => setShowVideo(false)}
-              className="absolute top-2 right-2 text-white text-3xl font-bold cursor-pointer"
-            >
-              ×
-            </button>
-          </div>
-        </div>
-      )}
     </section>
   );
 }

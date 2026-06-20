@@ -1,31 +1,29 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import Image from "next/image";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { FaCalendarAlt, FaUser } from "react-icons/fa";
-import image1 from "../../../public/images/home/banner.png";
-import image2 from "../../../public/images/home/banner.png";
-import image3 from "../../../public/images/home/banner.png";
+import { format } from "date-fns";
+import { FaCalendarAlt, FaUser, FaStar, FaWhatsapp } from "react-icons/fa";
+import { site, whatsappLink } from "@/data/site";
+
+const STAY_MSG =
+  "Hello! I'd like to book my stay at The Tribhuvan Residency, Ayodhya. Please share availability and tariff.";
 
 const slides = [
   {
     id: 1,
-    image: image1,
-    heading: "Slide 1 Heading",
-    text: "This is the first slide description.",
+    image: "/images/tribhuvan/hero.jpg",
+    text: "A peaceful, divine retreat just a short walk from Shree Ram Janmabhoomi.",
   },
   {
     id: 2,
-    image: image2,
-    heading: "Slide 2 Heading",
-    text: "This is the second slide description.",
+    image: "/images/tribhuvan/super-deluxe-room.jpeg",
+    text: "Spacious, serene rooms designed for a restful pilgrimage.",
   },
   {
     id: 3,
-    image: image3,
-    heading: "Slide 3 Heading",
-    text: "This is the third slide description.",
+    image: "/images/tribhuvan/hotel-2.jpg",
+    text: "Spotless air-conditioned comfort, just steps from the temple.",
   },
 ];
 
@@ -38,6 +36,27 @@ const Hero1 = () => {
 
   const sliderRef = useRef(null);
   const autoSlideRef = useRef(null);
+
+  const handleCheckAvailability = () => {
+    const fmt = (d) => {
+      try {
+        return format(d, "dd MMM yyyy");
+      } catch {
+        return "—";
+      }
+    };
+    const guests =
+      `${adultCount} Adult${adultCount > 1 ? "s" : ""}` +
+      (childCount > 0
+        ? `, ${childCount} Child${childCount > 1 ? "ren" : ""}`
+        : "");
+    const msg =
+      `Hello! I'd like to check room availability at The Tribhuvan Residency.\n` +
+      `Check-in: ${fmt(checkInDate)}\n` +
+      `Check-out: ${fmt(checkOutDate)}\n` +
+      `Guests: ${guests}`;
+    window.open(whatsappLink(msg), "_blank", "noopener,noreferrer");
+  };
 
   useEffect(() => {
     const nextSlide = () => {
@@ -55,20 +74,67 @@ const Hero1 = () => {
 
   return (
     <section className="relative">
-      <section className="flex items-end justify-center  overflow-x-hidden">
+      <section className="flex items-end justify-center overflow-x-hidden">
         <div
           ref={sliderRef}
           className="flex transition-transform duration-1000 ease-out"
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
         >
           {slides.map((slide) => (
-            <div key={slide.id} className="relative flex-shrink-0 w-full">
-              <Image
+            <div
+              key={slide.id}
+              className="relative flex-shrink-0 w-full h-[70vh] md:h-[80vh]"
+            >
+              <img
                 src={slide.image}
-                alt={`Slide ${slide.id}`}
-                className="w-full md:h-[80vh] object-cover"
-                priority
+                alt={`${site.name} — ${slide.text}`}
+                className="w-full h-full object-cover"
               />
+
+              {/* Dark gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
+
+              {/* Centered hero text */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                <p className="text-secondary font-medium tracking-[0.25em] uppercase text-sm md:text-base mb-3 flex items-center gap-2">
+                  <span className="w-5 h-px bg-secondary inline-block"></span>
+                  Welcome to
+                  <span className="w-5 h-px bg-secondary inline-block"></span>
+                </p>
+                <h1 className="font-serif text-white text-3xl md:text-6xl font-bold mb-4 drop-shadow-lg">
+                  {site.name}
+                </h1>
+                <p className="text-white/90 font-serif text-lg md:text-2xl mb-4 max-w-2xl">
+                  {site.tagline}
+                </p>
+                <p className="text-white/80 text-sm md:text-base max-w-xl mb-7">
+                  {slide.text}
+                </p>
+
+                <div className="flex flex-col sm:flex-row items-center gap-5">
+                  <a
+                    href={whatsappLink(STAY_MSG)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <button className="btn-primary">
+                      <span className="flex items-center gap-2">
+                        <FaWhatsapp /> Book Your Stay
+                      </span>
+                    </button>
+                  </a>
+                  <div className="flex items-center gap-2 text-white text-sm md:text-base">
+                    <FaStar className="text-secondary" />
+                    <span className="font-semibold">{site.rating}</span>
+                    <span className="text-white/70">·</span>
+                    <span>{site.ratingText}</span>
+                    <span className="text-white/70">·</span>
+                    <span className="text-white/80">
+                      {site.ratingsCount} ratings
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -138,7 +204,7 @@ const Hero1 = () => {
                   onChange={(e) => setChildCount(parseInt(e.target.value))}
                   className="border-none bg-transparent text-gray-600 cursor-pointer focus:outline-none"
                 >
-                  {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
+                  {Array.from({ length: 20 }, (_, i) => i).map((num) => (
                     <option key={num} value={num}>
                       {num}
                     </option>
@@ -149,8 +215,13 @@ const Hero1 = () => {
 
             {/* Button */}
             <div className="w-full md:w-auto md:px-2 pt-4 md:pt-0">
-              <button className="relative overflow-hidden bg-primary cursor-pointer w-full md:w-auto text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 ease-in-out before:absolute before:top-0 before:left-0 before:w-0 before:h-full before:bg-[#4e6956f7] hover:before:w-full before:transition-all before:duration-300 before:ease-in-out">
-                <span className="relative z-10">Check Now</span>
+              <button
+                onClick={handleCheckAvailability}
+                className="btn-primary w-full md:w-auto text-center"
+              >
+                <span className="flex items-center justify-center gap-2">
+                  <FaWhatsapp /> Check Availability
+                </span>
               </button>
             </div>
           </div>

@@ -12,8 +12,8 @@ function About() {
     <div>
       <Header />
         <AboutBanner />
-        <TwoImageWithContent />
         <ImageWithContent />
+        <TwoImageWithContent />
         <TeamSection />
         <Testimonial />
       <Footer />

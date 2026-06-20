@@ -1,89 +1,71 @@
 "use client";
 import React from "react";
-import Image from "next/image";
-import img1 from "../../../public/images/home/home_blog.png"; 
-import img2 from "../../../public/images/home/home_blog.png"; 
+import {
+  FaMapMarkerAlt,
+  FaPlaceOfWorship,
+  FaWater,
+  FaTrain,
+  FaPlaneDeparture,
+} from "react-icons/fa";
+import { attractions } from "@/data/site";
 
-const blogPosts = [
-  {
-    title: "Choose From a Wide Range of Properties Which",
-    category: "Hotel",
-    date: "20",
-    month: "Jun",
-    image: img1,
-  },
-  {
-    title: "Choose From a Wide Range of Properties Which",
-    category: "Hotel",
-    date: "20",
-    month: "Jun",
-    image: img2,
-  },
-];
-
-const blogLinks = [
-  {
-    title: "Dutch online travel agency for lodging reservations",
-    category: "Foods",
-  },
-  {
-    title: "Other travel products, and a subsidiary of Booking",
-    category: "Drinks",
-  },
-    {
-    title: "Other travel products, and a subsidiary of Booking",
-    category: "Drinks",
-  },
-];
+// Pick an icon based on the attraction type.
+const iconForType = (type) => {
+  switch (type) {
+    case "temple":
+      return FaPlaceOfWorship;
+    case "ghat":
+      return FaWater;
+    case "transit":
+      return FaTrain;
+    case "airport":
+      return FaPlaneDeparture;
+    default:
+      return FaMapMarkerAlt;
+  }
+};
 
 export default function NewsArticlesSection() {
   return (
-    <section className="bg-[#f4f4f4] px-4 md:px-20 py-16 text-black mx-auto max-w-7xl">
+    <section className="bg-cream px-4 md:px-20 py-16 text-black mx-auto max-w-7xl">
       <p className="text-secondary font-medium mb-2 flex md:justify-center justify-start items-center gap-2">
-          <span className="w-5 h-px bg-secondary inline-block"></span>
-          Facilities
-          <span className="w-5 h-px bg-secondary inline-block"></span>
-        </p>
+        <span className="w-5 h-px bg-secondary inline-block"></span>
+        Around Us
+        <span className="w-5 h-px bg-secondary inline-block"></span>
+      </p>
 
-        <h2 className="md:text-4xl text-2xl md:text-center text-left font-serif font-bold text-gray-900 mb-12">
-          Lorem Ipsum Dolo
-        </h2>
+      <h2 className="md:text-4xl text-2xl md:text-center text-left font-serif font-bold text-gray-900 mb-4">
+        Explore Ayodhya
+      </h2>
 
-      <div className="grid md:grid-cols-3 gap-10">
-        {/* Left Two Cards */}
-        <div className="md:col-span-2 grid md:grid-cols-2 gap-6">
-          {blogPosts.map((post, i) => (
-            <div key={i} className="bg-white rounded-md overflow-hidden">
-              <div className="relative h-56 w-full">
-                <Image
-                  src={post.image}
-                  alt={post.title}
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute right-[18px] bottom-[-38px] bg-white text-center shadow-sm">
-                  <p className="md:text-xl text-lg font-bold text-secondary py-3 px-5 ">{post.date}</p>
-                  <p className="text-xs font-semibold bg-secondary text-white px-3 py-1">{post.month}</p>
-                </div>
+      <p className="text-gray-600 md:text-center text-left max-w-2xl mx-auto mb-12">
+        Sacred temples, the holy Saryu ghats and convenient transport — all
+        within easy reach of our doorstep.
+      </p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {attractions.map((attraction, i) => {
+          const Icon = iconForType(attraction.type);
+          return (
+            <div
+              key={i}
+              className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition flex items-start gap-4"
+            >
+              <div className="bg-cream p-3 rounded-md shrink-0">
+                <Icon className="text-2xl text-secondary" />
               </div>
-              <div className="p-4">
-                <p className="text-sm text-secondary font-medium mb-1">{post.category}</p>
-                <h3 className="font-semibold text-lg leading-snug mt-4">
-                  {post.title}
+              <div>
+                <h3 className="font-serif text-lg leading-snug text-gray-900 mb-1">
+                  {attraction.name}
                 </h3>
+                <p className="text-sm text-secondary font-medium flex items-center gap-1">
+                  <FaMapMarkerAlt className="text-xs" />
+                  {attraction.distance}
+                </p>
               </div>
             </div>
-          ))}
-        </div>
-
-        <div className="bg-white rounded-md divide-y divide-gray-200">
-          {blogLinks.map((link, i) => (
-            <div key={i} className="p-6">
-              <p className="text-sm text-secondary font-medium mb-1">{link.category}</p>
-              <h4 className="font-semibold text-lg leading-snug">{link.title}</h4>
-            </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </section>
   );

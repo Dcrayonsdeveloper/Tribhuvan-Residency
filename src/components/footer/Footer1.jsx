@@ -1,88 +1,115 @@
 "use client";
 import React from "react";
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaArrowUp } from "react-icons/fa";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaArrowUp,
+  FaFacebookF,
+  FaInstagram,
+  FaYoutube,
+} from "react-icons/fa";
+import { site, navLinks, rooms } from "@/data/site";
 
 export default function Footer() {
+  const scrollTop = () =>
+    typeof window !== "undefined" && window.scrollTo({ top: 0, behavior: "smooth" });
+
   return (
-    <footer className="bg-[#f4f4f4] text-gray-700 pt-12 px-4 max-w-7xl mx-auto md:px-20 pb-6 relative">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
-        <h2 className="md:text-4xl  text-2xl font-serif font-semibold text-gray-900">Lorem Ipsum Dolor</h2>
-        <form className="flex w-full md:w-auto">
-          <input
-            type="email"
-            placeholder="Enter your email"
-            className="px-5 py-3 rounded-l-md bg-white text-gray-800 shadow-md w-full md:w-[300px] focus:outline-none"
-          />
-          <button
-            type="submit"
-            className="px-6 py-3 bg-secondary cursor-pointer text-white rounded-r-md font-semibold hover:bg-[#a98d60] transition"
-          >
-            Subscribe
-          </button>
-        </form>
-      </div>
-
-      <div className="grid md:grid-cols-4 gap-10 border-t border-gray-200 pt-10">
-        <div>
-          <div className="flex items-center gap-2 mb-4">
-            <h3 className="text-lg font-semibold text-secondary">Lorem</h3>
+    <footer className="bg-espresso text-amber-50/80 pt-14 px-4 md:px-20 pb-6 relative">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-4 gap-10">
+          {/* Brand */}
+          <div className="md:col-span-1">
+            <Image
+              src="/logo.png"
+              alt={site.name}
+              width={200}
+              height={120}
+              className="h-20 w-auto object-contain mb-4"
+            />
+            <p className="text-sm leading-relaxed">{site.intro}</p>
+            <div className="flex items-center gap-3 mt-5">
+              <a href={site.social.facebook} aria-label="Facebook" className="w-9 h-9 rounded-full bg-white/10 hover:bg-secondary flex items-center justify-center transition">
+                <FaFacebookF size={14} />
+              </a>
+              <a href={site.social.instagram} aria-label="Instagram" className="w-9 h-9 rounded-full bg-white/10 hover:bg-secondary flex items-center justify-center transition">
+                <FaInstagram size={15} />
+              </a>
+              <a href={site.social.youtube} aria-label="YouTube" className="w-9 h-9 rounded-full bg-white/10 hover:bg-secondary flex items-center justify-center transition">
+                <FaYoutube size={15} />
+              </a>
+            </div>
           </div>
-          <p className="text-sm leading-relaxed">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-            volutpat, massa nec tincidunt eleifend, velit purus vulputate quam.
-          </p>
+
+          {/* Quick links */}
+          <div>
+            <h4 className="font-serif text-xl text-secondary mb-4">Explore</h4>
+            <ul className="space-y-2 text-sm">
+              {navLinks.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="hover:text-secondary transition">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Rooms */}
+          <div>
+            <h4 className="font-serif text-xl text-secondary mb-4">Our Rooms</h4>
+            <ul className="space-y-2 text-sm">
+              {rooms.map((r) => (
+                <li key={r.slug}>
+                  <Link href={`/rooms/${r.slug}`} className="hover:text-secondary transition">
+                    {r.name}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link href="/rooms" className="hover:text-secondary transition">
+                  View All Rooms
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="font-serif text-xl text-secondary mb-4">Contact</h4>
+            <ul className="space-y-3 text-sm">
+              <li className="flex items-start gap-3">
+                <FaMapMarkerAlt className="text-secondary mt-1 shrink-0" />
+                <span>{site.address}</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <FaPhoneAlt className="text-secondary shrink-0" />
+                <a href={`tel:${site.phone}`} className="hover:text-secondary">{site.phoneDisplay}</a>
+              </li>
+              <li className="flex items-center gap-3">
+                <FaEnvelope className="text-secondary shrink-0" />
+                <a href={`mailto:${site.email}`} className="hover:text-secondary break-all">{site.email}</a>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div>
-          <h4 className="font-semibold text-gray-900 mb-3">Lorem Links</h4>
-          <ul className="space-y-2 text-sm">
-            <li>Lorem One</li>
-            <li>Lorem Two</li>
-            <li>Lorem Three</li>
-            <li>Lorem Four</li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="font-semibold text-gray-900 mb-3">Lorem Service</h4>
-          <ul className="space-y-2 text-sm">
-            <li>Lorem Option A</li>
-            <li>Lorem Option B</li>
-            <li>Lorem Option C</li>
-            <li>Lorem Option D</li>
-            <li>Lorem Option E</li>
-          </ul>
-        </div>
-
-        {/* Contact Info */}
-        <div>
-          <h4 className="font-semibold text-gray-900 mb-3">Lorem Contact</h4>
-          <ul className="space-y-3 text-sm">
-            <li className="flex items-center gap-2">
-              <FaPhoneAlt className="text-secondary" /> +12345678900
-            </li>
-            <li className="flex items-center gap-2">
-              <FaEnvelope className="text-secondary" /> lorem@example.com
-            </li>
-            <li className="flex items-center gap-2">
-              <FaMapMarkerAlt className="text-secondary" /> 123 Ipsum Street, Dolor City
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Bottom Bar */}
-      <div className="flex flex-col md:flex-row justify-between items-center mt-12 pt-6 border-t border-gray-200 text-sm">
-        <p>© 2024 Lorem Ipsum. All rights reserved.</p>
-        <div className="flex items-center gap-4 mt-4 md:mt-0">
-          <a href="#" className="hover:text-secondary">Facebook</a>
-          <span className="text-gray-400">|</span>
-          <a href="#" className="hover:text-secondary">Linkedin</a>
-          <span className="text-gray-400">|</span>
-          <a href="#" className="hover:text-secondary">Twitter</a>
-          <button className="ml-4 w-8 h-8 rounded-full bg-secondary text-white flex items-center justify-center hover:bg-[#a98d60] transition">
-            <FaArrowUp size={14} />
-          </button>
+        {/* Bottom */}
+        <div className="flex flex-col md:flex-row justify-between items-center mt-12 pt-6 border-t border-white/10 text-sm gap-4">
+          <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
+          <div className="flex items-center gap-4">
+            <span className="text-amber-50/60">Made with devotion in Ayodhya</span>
+            <button
+              onClick={scrollTop}
+              aria-label="Back to top"
+              className="w-9 h-9 rounded-full bg-secondary text-white flex items-center justify-center hover:bg-[var(--gold-soft)] transition"
+            >
+              <FaArrowUp size={14} />
+            </button>
+          </div>
         </div>
       </div>
     </footer>

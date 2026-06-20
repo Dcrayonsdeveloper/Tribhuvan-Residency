@@ -1,60 +1,40 @@
+"use client";
+
 import { useState } from "react";
+import { IoIosArrowDown } from "react-icons/io";
+import { faqs } from "@/data/site";
 
-const faqs = [
-  {
-    question: "Lorem ipsum dolor sit amet?",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vel sapien at quam pulvinar ultrices. Integer dignissim nisl sed sem euismod, a interdum tortor fermentum.",
-  },
-  {
-    question: "Curabitur non nulla sit amet nisl tempus?",
-    answer:
-      "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Nulla porttitor accumsan tincidunt. Cras ultricies ligula sed magna dictum porta.",
-  },
-  {
-    question: "Pellentesque in ipsum id orci porta dapibus?",
-    answer:
-      "Pellentesque in ipsum id orci porta dapibus. Donec sollicitudin molestie malesuada. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.",
-  },
-    {
-    question: "Lorem ipsum dolor sit amet?",
-    answer:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vel sapien at quam pulvinar ultrices. Integer dignissim nisl sed sem euismod, a interdum tortor fermentum.",
-  },
-  {
-    question: "Pellentesque in ipsum id orci porta dapibus?",
-    answer:
-      "Pellentesque in ipsum id orci porta dapibus. Donec sollicitudin molestie malesuada. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.",
-  },
-];
-
-export default function InsuranceFAQ() {
-  const [activeIndex, setActiveIndex] = useState(null);
+export default function FAQ() {
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
   return (
-    <section className="py-24 md:px-8 px-4 mx-auto max-w-5xl  flex flex-col md:flex-row md:gap-12 md:h-[600px] h-[800px]">
-      <div className="md:flex flex-col text-left basis-1/2">
+    <section className="py-24 md:px-8 px-4 mx-auto max-w-5xl flex flex-col md:flex-row md:gap-12">
+      <div className="md:flex flex-col text-left basis-1/2 mb-8 md:mb-0">
         <p className="text-secondary font-medium mb-2 flex justify-start items-center gap-2">
           <span className="w-5 h-px bg-secondary inline-block"></span>
-          Facilities
+          Got Questions?
           <span className="w-5 h-px bg-secondary inline-block"></span>
         </p>
 
-        <h2 className="md:text-4xl text-2xl text-left font-serif font-bold text-gray-900 md:mb-12">
-          Lorem Ipsum Dolo
+        <h2 className="md:text-4xl text-2xl text-left font-serif font-bold text-gray-900 mb-4">
+          Frequently Asked Questions
         </h2>
+        <p className="text-gray-600 leading-relaxed">
+          Everything you need to know before your stay at The Tribhuvan
+          Residency. Can't find an answer? Just give us a call — we're always
+          happy to help.
+        </p>
       </div>
 
       <ul className="basis-1/2 space-y-2">
         {faqs.map((faq, index) => (
           <li key={index} className="border-t border-gray-200">
             <button
-              className={`relative cursor-pointer flex items-center w-full py-5 text-left font-medium transition-colors duration-300 
-              ${
+              className={`relative cursor-pointer flex items-center w-full py-5 text-left font-medium transition-colors duration-300 ${
                 activeIndex === index
                   ? "text-primary"
                   : "text-gray-800 hover:text-primary"
@@ -62,17 +42,14 @@ export default function InsuranceFAQ() {
               aria-expanded={activeIndex === index ? "true" : "false"}
               onClick={() => toggleFAQ(index)}
             >
-              <span className="flex-1 text-lg">{faq.question}</span>
-              <svg
-                className={`w-4 h-4 ml-2 flex-shrink-0 transition-transform duration-300 ${
-                  activeIndex === index ? "rotate-45 text-primary" : "text-gray-500"
+              <span className="flex-1 text-lg">{faq.q}</span>
+              <IoIosArrowDown
+                className={`w-5 h-5 ml-2 flex-shrink-0 transition-transform duration-300 ${
+                  activeIndex === index
+                    ? "rotate-180 text-secondary"
+                    : "text-gray-500"
                 }`}
-                viewBox="0 0 16 16"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect y="7" width="16" height="2" rx="1"></rect>
-                <rect y="7" width="16" height="2" rx="1" className="transform rotate-90"></rect>
-              </svg>
+              />
             </button>
 
             <div
@@ -85,7 +62,7 @@ export default function InsuranceFAQ() {
                   activeIndex === index ? "opacity-100" : "opacity-0"
                 }`}
               >
-                {faq.answer}
+                {faq.a}
               </div>
             </div>
           </li>

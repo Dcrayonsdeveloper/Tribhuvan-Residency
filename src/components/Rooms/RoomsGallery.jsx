@@ -1,55 +1,85 @@
-import Image from 'next/image'
+"use client";
 
-import image1 from '../../../public/images/gallery/image1.png'
-import image2 from '../../../public/images/gallery/image1.png'
-import image3 from '../../../public/images/gallery/image1.png'
-import image4 from '../../../public/images/gallery/image2.png'
-import image5 from '../../../public/images/gallery/image2.png'
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { FaTimes } from "react-icons/fa";
+import { galleryImages } from "@/data/site";
 
-const images = [image1, image2, image3, image4, image5]
+const RoomsGallery = ({ room }) => {
+  const [activeSrc, setActiveSrc] = useState(null);
 
-const RoomsGallery = () => {
+  useEffect(() => {
+    if (activeSrc) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => document.body.classList.remove("overflow-hidden");
+  }, [activeSrc]);
+
+  if (!room) return null;
+
+  const fallback = galleryImages.map((g) => g.src);
+  const images =
+    room.gallery && room.gallery.length ? room.gallery : fallback;
+
   return (
     <section className="max-w-7xl mx-auto md:px-8 px-4 py-16 text-center">
       <p className="text-secondary font-medium mb-2 flex justify-start md:justify-center items-center gap-2">
         <span className="w-5 h-px bg-secondary inline-block"></span>
-        Facilities
+        Gallery
         <span className="w-5 h-px bg-secondary inline-block"></span>
       </p>
 
       <h2 className="md:text-4xl text-2xl font-serif text-left md:text-center font-bold text-gray-900 mb-12">
-        Lorem Ipsum Dolo
+        A Look Inside the {room.name}
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mb-5">
-        {images.slice(0, 3).map((src, index) => (
-          <div key={index} className="overflow-hidden rounded-md">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+        {images.map((src, index) => (
+          <button
+            key={index}
+            onClick={() => setActiveSrc(src)}
+            className="overflow-hidden rounded-md cursor-pointer focus:outline-none"
+            aria-label={`Enlarge image ${index + 1}`}
+          >
             <Image
               src={src}
-              alt={`Gallery image ${index + 1}`}
+              alt={`${room.name} — view ${index + 1}`}
               width={500}
               height={400}
-              className="rounded-lg object-cover hover:scale-105 transition-transform duration-300 w-full h-auto"
+              className="rounded-lg object-cover hover:scale-105 transition-transform duration-300 w-full h-64"
             />
-          </div>
+          </button>
         ))}
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-5">
-        {images.slice(3).map((src, index) => (
-          <div key={index} className="w-full sm:w-1/2 overflow-hidden rounded-md">
+      {/* Lightbox */}
+      {activeSrc && (
+        <div
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4"
+          onClick={() => setActiveSrc(null)}
+        >
+          <div className="relative max-w-3xl w-full" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setActiveSrc(null)}
+              className="absolute top-2 right-2 z-10 cursor-pointer text-white bg-black/50 rounded-full p-2"
+              aria-label="Close image"
+            >
+              <FaTimes />
+            </button>
             <Image
-              src={src}
-              alt={`Gallery image ${index + 4}`}
-              width={600}
-              height={400}
-              className="rounded-lg object-cover hover:scale-105 transition-transform duration-300 w-full h-auto"
+              src={activeSrc}
+              alt={`${room.name} enlarged view`}
+              width={1000}
+              height={650}
+              className="w-full max-h-[80vh] object-contain rounded-lg"
             />
           </div>
-        ))}
-      </div>
+        </div>
+      )}
     </section>
-  )
-}
+  );
+};
 
-export default RoomsGallery
+export default RoomsGallery;

@@ -1,94 +1,106 @@
 "use client";
-import Image from "next/image";
 import { FaArrowLeft, FaArrowRight, FaStar } from "react-icons/fa";
 import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 
-import profile from "../../../public/images/home/profile.png";
+import { site, ratingBreakdown, reviews } from "@/data/site";
 
 export default function Testimonial() {
   const swiperRef = useRef(null);
-
-  const testimonials = [
-    {
-      name: "Sarah Martinez",
-      role: "COO of Apex Solutions",
-      message:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      image: profile,
-    },
-    {
-      name: "David Chen",
-      role: "CTO of NovaTech",
-      message:
-        "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
-      image: profile,
-    },
-    {
-      name: "Aisha Patel",
-      role: "Marketing Head at Bloom",
-      message:
-        "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.",
-      image: profile,
-    },
-    {
-      name: "Mark Thompson",
-      role: "Founder at Innovate",
-      message:
-        "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
-      image: profile,
-    },
-  ];
 
   return (
     <section className="md:py-16 py-8 bg-white px-4 md:px-0 pt-40 md:pt-0">
       <div className="max-w-6xl mx-auto text-left relative">
         <p className="text-secondary font-medium mb-2 flex items-center gap-2 justify-start">
           <span className="w-5 h-px bg-secondary inline-block"></span>
-          Lorem Ipsum
+          Guest Reviews
           <span className="w-5 h-px bg-secondary inline-block"></span>
         </p>
 
         <h2 className="md:text-4xl text-2xl font-serif font-semibold text-gray-900 mb-10">
-          What Our Client Say
+          What Our Guests Say
         </h2>
 
+        {/* Overall rating + breakdown */}
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
+          {/* Overall rating block */}
+          <div className="bg-espresso text-white rounded-2xl p-8 flex flex-col justify-center items-center text-center">
+            <p className="text-5xl font-serif font-bold text-secondary mb-2">
+              {site.rating}
+            </p>
+            <div className="flex gap-1 text-secondary mb-3">
+              {[...Array(5)].map((_, i) => (
+                <FaStar
+                  key={i}
+                  className={
+                    i < Math.round(site.rating)
+                      ? "text-secondary"
+                      : "text-white/30"
+                  }
+                />
+              ))}
+            </div>
+            <p className="text-lg font-semibold">{site.ratingText}</p>
+            <p className="text-sm text-white/70 mt-1">
+              {site.ratingsCount} ratings · {site.reviewsCount} reviews
+            </p>
+          </div>
+
+          {/* Rating breakdown */}
+          <div className="md:col-span-2 grid sm:grid-cols-2 gap-x-10 gap-y-6 content-center">
+            {ratingBreakdown.map((item) => (
+              <div key={item.label}>
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-gray-800 font-medium">
+                    {item.label}
+                  </span>
+                  <span className="text-sm font-semibold text-gray-900">
+                    {item.score.toFixed(1)}
+                  </span>
+                </div>
+                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-secondary rounded-full"
+                    style={{ width: `${(item.score / 5) * 100}%` }}
+                  ></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Guest review cards */}
         <Swiper
           modules={[Navigation]}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
-          spaceBetween={50}
+          spaceBetween={24}
           slidesPerView={1}
+          breakpoints={{
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+          }}
         >
-          {testimonials.map((item, index) => (
-            <SwiperSlide key={index}>
-              <div className="flex flex-col md:flex-row items-center gap-10">
-                <div className="flex-shrink-0">
-                  <Image
-                    src={item.image}
-                    width={240}
-                    height={240}
-                    alt="Client Photo"
-                    className="rounded-full border-4 border-gray-100 shadow-md"
-                  />
+          {reviews.map((item, index) => (
+            <SwiperSlide key={index} className="h-auto">
+              <div className="bg-cream rounded-2xl p-6 h-full flex flex-col">
+                <div className="text-base mb-3 flex gap-1 text-secondary">
+                  {[...Array(5)].map((_, i) => (
+                    <FaStar
+                      key={i}
+                      className={i < item.rating ? "text-secondary" : "text-gray-300"}
+                    />
+                  ))}
                 </div>
-
-                <div className="flex-1">
-                  <div className="text-xl mb-3 flex gap-1 text-primary">
-                    {[...Array(5)].map((_, i) => (
-                      <FaStar key={i} />
-                    ))}
-                  </div>
-                  <p className="text-gray-600  leading-relaxed mb-6 max-w-[90%] md:text-lg">
-                    {item.message}
+                <p className="text-gray-600 leading-relaxed mb-6 flex-1">
+                  “{item.text}”
+                </p>
+                <div className="mt-auto">
+                  <p className="font-serif text-lg font-medium text-gray-900">
+                    {item.name}
                   </p>
-                  <div className="mt-6">
-                    <p className="font-serif md:text-xl font-medium text-gray-900">
-                      {item.name}
-                    </p>
-                    <p className=" text-gray-600 md:text-lg">{item.role}</p>
-                  </div>
+                  <p className="text-gray-500 text-sm">{item.meta}</p>
                 </div>
               </div>
             </SwiperSlide>
