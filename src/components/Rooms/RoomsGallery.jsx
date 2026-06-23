@@ -24,7 +24,7 @@ const RoomsGallery = ({ room }) => {
     room.gallery && room.gallery.length ? room.gallery : fallback;
 
   return (
-    <section className="max-w-7xl mx-auto md:px-8 px-4 py-16 text-center">
+    <section className="max-w-7xl mx-auto md:px-8 px-4 py-10 md:py-16 text-center">
       <p className="text-secondary font-medium mb-2 flex justify-start md:justify-center items-center gap-2">
         <span className="w-5 h-px bg-secondary inline-block"></span>
         Gallery
@@ -48,7 +48,7 @@ const RoomsGallery = ({ room }) => {
               alt={`${room.name} — view ${index + 1}`}
               width={500}
               height={400}
-              className="rounded-lg object-cover hover:scale-105 transition-transform duration-300 w-full h-64"
+              className="rounded-lg object-cover hover:scale-105 transition-transform duration-300 w-full h-48 sm:h-56 md:h-64"
             />
           </button>
         ))}

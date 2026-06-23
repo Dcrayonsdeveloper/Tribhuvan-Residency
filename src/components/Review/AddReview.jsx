@@ -39,7 +39,7 @@ const AddReview = ({ onReviewSubmit }) => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Star rating */}
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
           <span className="text-gray-700 font-medium">Your Rating</span>
           <div className="flex space-x-1">
             {[...Array(5)].map((_, index) => {

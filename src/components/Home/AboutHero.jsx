@@ -7,10 +7,10 @@ import { site } from "@/data/site";
 
 const AboutUsSection = () => {
   return (
-    <section className="bg-white md:pt-36 pt-16 py-16 mx-auto max-w-7xl">
+    <section className="bg-white md:pt-36 pt-12 py-12 md:py-16 mx-auto max-w-7xl">
       <div className="md:mx-16 flex flex-col lg:flex-row md:px-6 px-4 gap-10 relative justify-between">
-        <div className="relative w-full hidden md:block lg:w-[40%]">
-          <div className="rounded-xl overflow-hidden shadow-lg h-[550px]">
+        <div className="relative w-full hidden lg:block lg:w-[40%]">
+          <div className="rounded-xl overflow-hidden shadow-lg h-[550px] relative">
             <Image
               src="/images/tribhuvan/hotel-1.jpg"
               alt="Guest lounge at The Tribhuvan Residency"
@@ -44,15 +44,15 @@ const AboutUsSection = () => {
           </div>
         </div>
 
-        <div className="w-full lg:w-1/2">
+        <div className="w-full lg:w-1/2 text-left">
           <p className="text-secondary font-medium mb-2 flex items-center gap-2">
             <span className="w-5 h-px bg-secondary inline-block"></span>
             About Us
           </p>
-          <h2 className="lg:text-4xl text-2xl font-serif font-bold text-gray-900 mb-6">
-            A Serene Retreat Near <br /> Shree Ram Janmabhoomi
+          <h2 className="lg:text-4xl text-2xl md:text-3xl font-serif font-bold text-gray-900 mb-5 md:mb-6 leading-snug">
+            A Serene Retreat Near <br className="hidden sm:block" /> Shree Ram Janmabhoomi
           </h2>
-          <p className="text-gray-600 text-base leading-relaxed mb-6">
+          <p className="text-gray-600 text-base leading-relaxed mb-5 md:mb-6">
             Welcome to {site.name}, an exquisite guest house located just a short
             walk from the main gate of the revered Shree Ram Janmabhoomi Mandir
             in Ayodhya. Thoughtfully designed for pilgrims and travellers, our
@@ -60,14 +60,14 @@ const AboutUsSection = () => {
             western bathrooms with 24-hour hot water, and the quiet calm you need
             after a day of darshan.
           </p>
-          <p className="text-gray-600 text-base leading-relaxed mb-6">
+          <p className="text-gray-600 text-base leading-relaxed mb-5 md:mb-6">
             Courteous, ever-helpful staff, in-room dining from trusted nearby
             kitchens, free Wi-Fi and secure parking make every stay
             effortless — perfect for early-morning aarti and a serene Ayodhya
             yatra.
           </p>
-          <Link href="/about">
-            <button className="btn-primary">
+          <Link href="/about" className="inline-block w-full sm:w-auto">
+            <button className="btn-primary w-full sm:w-auto">
               <span>Discover More</span>
             </button>
           </Link>

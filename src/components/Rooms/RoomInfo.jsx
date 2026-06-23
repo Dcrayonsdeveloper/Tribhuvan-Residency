@@ -5,7 +5,7 @@ const RoomDetailSection = ({ room }) => {
   if (!room) return null;
 
   return (
-    <section className="max-w-7xl mx-auto md:px-8 px-4 md:py-16 py-10 grid grid-cols-1 lg:grid-cols-3 gap-10">
+    <section className="max-w-7xl mx-auto md:px-8 px-4 md:py-16 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10">
       {/* Left Section */}
       <div className="lg:col-span-2 space-y-10">
         {/* Overview */}
@@ -38,7 +38,7 @@ const RoomDetailSection = ({ room }) => {
           <h3 className="md:text-3xl text-2xl font-serif font-semibold text-gray-900 mb-4">
             Hotel Policies
           </h3>
-          <div className="grid sm:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
             <div className="flex items-start gap-3 bg-cream rounded-md p-4">
               <FaSignInAlt className="text-secondary text-xl mt-1 shrink-0" />
               <div>
@@ -65,7 +65,7 @@ const RoomDetailSection = ({ room }) => {
       </div>
 
       {/* Sidebar */}
-      <div className="bg-secondary/10 border border-secondary/30 md:p-6 p-6 rounded-md shadow-sm relative pt-16 h-fit">
+      <div className="bg-secondary/10 border border-secondary/30 p-5 sm:p-6 rounded-md shadow-sm relative mt-12 pt-12 sm:pt-16 h-fit">
         <div className="room-details__sidebar__top__item">
           <h4 className="room-details__sidebar__top__title">Book This Room</h4>
         </div>

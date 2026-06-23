@@ -11,7 +11,7 @@ export default function Testimonial() {
   const swiperRef = useRef(null);
 
   return (
-    <section className="md:py-16 py-8 bg-white px-4 md:px-0 pt-40 md:pt-0">
+    <section className="py-12 md:py-16 bg-white px-4 md:px-0">
       <div className="max-w-6xl mx-auto text-left relative">
         <p className="text-secondary font-medium mb-2 flex items-center gap-2 justify-start">
           <span className="w-5 h-px bg-secondary inline-block"></span>
@@ -24,10 +24,10 @@ export default function Testimonial() {
         </h2>
 
         {/* Overall rating + breakdown */}
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
+        <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-10 md:mb-12">
           {/* Overall rating block */}
-          <div className="bg-espresso text-white rounded-2xl p-8 flex flex-col justify-center items-center text-center">
-            <p className="text-5xl font-serif font-bold text-secondary mb-2">
+          <div className="bg-espresso text-white rounded-2xl p-6 md:p-8 flex flex-col justify-center items-center text-center">
+            <p className="text-4xl md:text-5xl font-serif font-bold text-secondary mb-2">
               {site.rating}
             </p>
             <div className="flex gap-1 text-secondary mb-3">
@@ -49,7 +49,7 @@ export default function Testimonial() {
           </div>
 
           {/* Rating breakdown */}
-          <div className="md:col-span-2 grid sm:grid-cols-2 gap-x-10 gap-y-6 content-center">
+          <div className="md:col-span-2 grid sm:grid-cols-2 gap-x-6 sm:gap-x-10 gap-y-5 sm:gap-y-6 content-center">
             {ratingBreakdown.map((item) => (
               <div key={item.label}>
                 <div className="flex justify-between items-center mb-1">
@@ -107,7 +107,7 @@ export default function Testimonial() {
           ))}
         </Swiper>
 
-        <div className="hidden md:flex z-40 flex-col gap-4 absolute right-0 top-1/2 transform -translate-y-1/2">
+        <div className="hidden xl:flex z-40 flex-col gap-4 absolute -right-2 top-1/2 transform -translate-y-1/2">
           <button
             className="p-2 rounded cursor-pointer border hover:bg-gray-100"
             onClick={() => swiperRef.current?.slidePrev()}
@@ -116,6 +116,24 @@ export default function Testimonial() {
           </button>
           <button
             className="p-2 rounded border cursor-pointer bg-primary text-white hover:bg-gray-800"
+            onClick={() => swiperRef.current?.slideNext()}
+          >
+            <FaArrowRight />
+          </button>
+        </div>
+
+        {/* Mobile/tablet nav controls */}
+        <div className="flex xl:hidden justify-center gap-4 mt-6">
+          <button
+            aria-label="Previous review"
+            className="p-3 rounded-full cursor-pointer border hover:bg-gray-100"
+            onClick={() => swiperRef.current?.slidePrev()}
+          >
+            <FaArrowLeft />
+          </button>
+          <button
+            aria-label="Next review"
+            className="p-3 rounded-full border cursor-pointer bg-primary text-white hover:bg-gray-800"
             onClick={() => swiperRef.current?.slideNext()}
           >
             <FaArrowRight />

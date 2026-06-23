@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
 import { HiOutlineMenu } from "react-icons/hi";
@@ -12,6 +13,94 @@ const BOOK_MSG =
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
+
+  const drawer = (
+    <>
+      <div
+        className={`fixed w-[85%] max-w-sm top-0 left-0 h-full bg-white transform overflow-y-auto shadow-2xl ${
+          menuOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out z-[1000]`}
+        aria-hidden={!menuOpen}
+      >
+        <div className="flex flex-col items-start gap-5 py-6 px-5">
+          <button
+            type="button"
+            aria-label="Close menu"
+            onClick={() => setMenuOpen(false)}
+            className="absolute top-3 right-3 text-4xl text-gray-700 p-1 cursor-pointer focus:outline-none"
+          >
+            <IoIosClose />
+          </button>
+
+          <Image src="/logo.png" alt={site.name} width={170} height={100} className="h-16 w-auto object-contain" />
+
+          <p className="text-gray-600 text-sm">{site.intro}</p>
+
+          <div className="w-full space-y-1">
+            {navLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                className="block py-3 border-b border-gray-100 text-gray-800 font-medium"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+
+          <a
+            href={whatsappLink(BOOK_MSG)}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMenuOpen(false)}
+            className="w-full"
+          >
+            <button className="btn-primary w-full text-center">
+              <span>Book Now</span>
+            </button>
+          </a>
+
+          <div className="mt-2">
+            <h3 className="text-lg font-semibold text-primary mb-3">Contact</h3>
+            <p className="flex items-center gap-2 text-sm">
+              <FaPhone className="text-secondary" /> <span>{site.phoneDisplay}</span>
+            </p>
+            <p className="flex items-center gap-2 mt-2 text-sm">
+              <FaEnvelope className="text-secondary" /> <span>{site.email}</span>
+            </p>
+            <p className="flex items-start gap-2 mt-2 text-sm">
+              <FaMapMarkerAlt className="text-secondary mt-1" /> <span>{site.address}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {menuOpen && (
+        <div
+          onClick={() => setMenuOpen(false)}
+          className="fixed top-0 left-0 w-full h-full bg-black/50 z-[999]"
+          aria-hidden="true"
+        />
+      )}
+    </>
+  );
 
   return (
     <header className="border-b border-gray-200 sticky top-0 z-40 bg-white/95 backdrop-blur">
@@ -70,77 +159,19 @@ const Header = () => {
         </div>
 
         <div className="lg:hidden flex items-center">
-          <HiOutlineMenu
-            className="text-3xl text-primary cursor-pointer"
-            onClick={() => setMenuOpen(!menuOpen)}
-          />
-        </div>
-      </div>
-
-      {/* Mobile drawer */}
-      <div
-        className={`fixed w-full top-0 left-0 h-full bg-white transform overflow-y-auto ${
-          menuOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out z-50`}
-      >
-        <div className="flex flex-col items-start gap-6 py-5 px-5">
           <button
-            onClick={() => setMenuOpen(false)}
-            className="absolute top-4 right-4 text-4xl text-gray-700"
+            type="button"
+            aria-label="Open menu"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(true)}
+            className="p-2 -mr-2 text-primary cursor-pointer focus:outline-none focus:ring-2 focus:ring-secondary/40 rounded"
           >
-            <IoIosClose />
+            <HiOutlineMenu className="text-3xl" />
           </button>
-
-          <Image src="/logo.png" alt={site.name} width={170} height={100} className="h-16 w-auto object-contain" />
-
-          <p className="text-gray-600 text-sm">{site.intro}</p>
-
-          <div className="w-full space-y-1">
-            {navLinks.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMenuOpen(false)}
-                className="block py-3 border-b border-gray-100 text-gray-800 font-medium"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </div>
-
-          <a
-            href={whatsappLink(BOOK_MSG)}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setMenuOpen(false)}
-            className="w-full"
-          >
-            <button className="btn-primary w-full text-center">
-              <span>Book Now</span>
-            </button>
-          </a>
-
-          <div className="mt-2">
-            <h3 className="text-lg font-semibold text-primary mb-3">Contact</h3>
-            <p className="flex items-center gap-2 text-sm">
-              <FaPhone className="text-secondary" /> <span>{site.phoneDisplay}</span>
-            </p>
-            <p className="flex items-center gap-2 mt-2 text-sm">
-              <FaEnvelope className="text-secondary" /> <span>{site.email}</span>
-            </p>
-            <p className="flex items-start gap-2 mt-2 text-sm">
-              <FaMapMarkerAlt className="text-secondary mt-1" /> <span>{site.address}</span>
-            </p>
-          </div>
         </div>
       </div>
 
-      {menuOpen && (
-        <div
-          onClick={() => setMenuOpen(false)}
-          className="fixed top-0 left-0 w-full h-full bg-black opacity-50 z-40"
-        />
-      )}
+      {mounted && createPortal(drawer, document.body)}
     </header>
   );
 };

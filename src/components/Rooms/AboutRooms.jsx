@@ -19,7 +19,7 @@ const RoomInfoCard = ({ room }) => {
     <section className="max-w-7xl mx-auto md:px-8 px-4 pt-12">
       <div className="rounded-md shadow-sm border border-gray-100 overflow-hidden">
         {/* Top Section */}
-        <div className="bg-cream lg:p-10 px-4 md:py-8 py-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="bg-cream lg:p-10 px-4 md:px-6 py-6 md:py-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6 lg:gap-10">
           {/* Title and Price */}
           <div>
             <p className="text-secondary font-medium mb-2 flex items-center gap-2">
@@ -43,10 +43,10 @@ const RoomInfoCard = ({ room }) => {
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block mt-5"
+              className="inline-block mt-5 w-full sm:w-auto"
             >
-              <button className="btn-gold">
-                <span className="flex items-center gap-2">
+              <button className="btn-gold w-full sm:w-auto">
+                <span className="flex items-center justify-center gap-2">
                   <FaWhatsapp /> Book Now
                 </span>
               </button>
@@ -54,19 +54,19 @@ const RoomInfoCard = ({ room }) => {
           </div>
 
           {/* Quick Facts */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-4 sm:gap-6 shrink-0">
             {facts.map((fact, i) => {
               const Icon = fact.icon;
               return (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="bg-white p-3 rounded-full shadow-sm">
+                <div key={i} className="flex items-center gap-3 min-w-0">
+                  <div className="bg-white p-2.5 sm:p-3 rounded-full shadow-sm shrink-0">
                     <Icon className="text-secondary text-lg w-5 h-5" />
                   </div>
-                  <div>
-                    <p className="md:text-lg text-md font-semibold leading-tight">
+                  <div className="min-w-0">
+                    <p className="md:text-lg text-sm sm:text-md font-semibold leading-tight truncate">
                       {fact.value}
                     </p>
-                    <p className="text-sm text-gray-500">{fact.label}</p>
+                    <p className="text-xs sm:text-sm text-gray-500 truncate">{fact.label}</p>
                   </div>
                 </div>
               );

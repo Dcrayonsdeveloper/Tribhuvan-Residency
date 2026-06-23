@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function RoomBanner() {
   return (
-    <section className="relative w-full h-[400px]">
+    <section className="relative w-full h-[260px] sm:h-[320px] md:h-[400px]">
       <Image
         src="/images/tribhuvan/super-deluxe-room.jpeg"
         alt="The Tribhuvan Residency — Our Rooms"
@@ -16,10 +16,10 @@ export default function RoomBanner() {
       <div className="absolute inset-0 bg-gradient-to-b from-espresso/65 via-espresso/65 to-espresso/80"></div>
 
       <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center px-4">
-        <h1 className="mb-3 text-3xl md:text-5xl font-serif font-bold drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
+        <h1 className="mb-3 text-2xl sm:text-3xl md:text-5xl font-serif font-bold drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]">
           Our Rooms &amp; Tariff
         </h1>
-        <div className="w-20 border-t-2 border-secondary my-2"></div>
+        <div className="w-16 sm:w-20 border-t-2 border-secondary my-2"></div>
       </div>
     </section>
   );

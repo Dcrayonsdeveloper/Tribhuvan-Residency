@@ -102,15 +102,14 @@ body { font-family: var(--font-body), system-ui, -apple-system, sans-serif; }
 .room-details__sidebar__top__item
  {
     position:absolute;
-    width:90%;
+    width: calc(100% - 32px);
     top:-55px;
-    left:22px;
+    left:16px;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: var(--primary-green);
-    position: relative;
-    padding: 15px 0px 28px;
+    padding: 15px 12px 28px;
 }
 .room-details__sidebar__top__title {
     margin-bottom: 0px;
@@ -121,11 +120,15 @@ body { font-family: var(--font-body), system-ui, -apple-system, sans-serif; }
     font-size: 20px;
     line-height: normal;
     text-transform: capitalize;
+    text-align: center;
 }
 @media screen and (max-width: 768px) {
+    .room-details__sidebar__top__item {
+        top: -45px;
+        padding: 12px 12px 22px;
+    }
     .room-details__sidebar__top__title {
-        height: 0px;
-      font-size: 15px;
+      font-size: 16px;
     }
 }
 .room-details__sidebar__top__item::after {

@@ -59,9 +59,9 @@ const RoomCard = () => {
       {rooms.map((room) => (
         <div
           key={room.slug}
-          className="bg-white md:h-80 rounded-lg overflow-hidden md:shadow-md flex flex-col md:flex-row border border-gray-100"
+          className="bg-white md:h-80 rounded-lg overflow-hidden shadow-sm md:shadow-md flex flex-col md:flex-row border border-gray-100"
         >
-          <div className="relative md:w-1/2 w-full h-64 md:h-auto">
+          <div className="relative md:w-1/2 w-full h-56 sm:h-64 md:h-auto">
             <Link href={`/rooms/${room.slug}`}>
               <Image
                 src={room.image}
@@ -84,54 +84,54 @@ const RoomCard = () => {
             </button>
           </div>
 
-          <div className="flex-1 p-6 flex flex-col justify-between">
+          <div className="flex-1 p-4 sm:p-6 flex flex-col justify-between gap-4">
             <div>
-              <div className="flex justify-between items-start gap-3">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-3">
                 <Link href={`/rooms/${room.slug}`}>
-                  <h2 className="md:text-2xl text-lg font-serif font-semibold text-gray-900 hover:text-secondary transition-colors">
+                  <h2 className="md:text-2xl text-lg sm:text-xl font-serif font-semibold text-gray-900 hover:text-secondary transition-colors">
                     {room.name}
                   </h2>
                 </Link>
               </div>
 
-              <p className="text-xl font-bold text-secondary mt-2">
+              <p className="text-lg sm:text-xl font-bold text-secondary mt-2">
                 {room.priceLabel}{" "}
                 <span className="text-sm font-normal text-gray-500">
                   / Night
                 </span>
               </p>
-              <p className="text-gray-600 mt-2 text-sm md:text-base">
+              <p className="text-gray-600 mt-2 text-sm md:text-base line-clamp-3 md:line-clamp-none">
                 {room.short}
               </p>
             </div>
 
-            <div className="bg-cream rounded-lg mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4 p-4">
-              <div className="flex items-center gap-3">
-                <FaUsers className="text-secondary text-xl shrink-0" />
-                <div>
-                  <p className="md:text-md font-semibold">{room.guests} Guests</p>
+            <div className="bg-cream rounded-lg grid grid-cols-3 sm:grid-cols-3 gap-2 sm:gap-4 p-3 sm:p-4">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <FaUsers className="text-secondary text-lg sm:text-xl shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-sm md:text-md font-semibold leading-tight truncate">{room.guests} Guests</p>
                   <p className="text-xs text-gray-500">Occupancy</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <FaExpandArrowsAlt className="text-secondary text-xl shrink-0" />
-                <div>
-                  <p className="text-md font-semibold">{room.size}</p>
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <FaExpandArrowsAlt className="text-secondary text-lg sm:text-xl shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-sm md:text-md font-semibold leading-tight truncate">{room.size}</p>
                   <p className="text-xs text-gray-500">Room Size</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <FaBed className="text-secondary text-xl shrink-0" />
-                <div>
-                  <p className="text-md font-semibold">{room.bed}</p>
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <FaBed className="text-secondary text-lg sm:text-xl shrink-0" />
+                <div className="min-w-0">
+                  <p className="text-sm md:text-md font-semibold leading-tight truncate">{room.bed}</p>
                   <p className="text-xs text-gray-500">Bedding</p>
                 </div>
               </div>
             </div>
 
-            <div className="mt-4">
+            <div>
               <Link href={`/rooms/${room.slug}`}>
-                <button className="btn-primary">
+                <button className="btn-primary w-full sm:w-auto">
                   <span>View Details</span>
                 </button>
               </Link>

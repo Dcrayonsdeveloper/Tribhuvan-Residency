@@ -83,7 +83,7 @@ const Hero1 = () => {
           {slides.map((slide) => (
             <div
               key={slide.id}
-              className="relative flex-shrink-0 w-full h-[70vh] md:h-[80vh]"
+              className="relative flex-shrink-0 w-full h-[80vh] md:h-[80vh] min-h-[520px]"
             >
               <img
                 src={slide.image}
@@ -95,35 +95,36 @@ const Hero1 = () => {
               <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
 
               {/* Centered hero text */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                <p className="text-secondary font-medium tracking-[0.25em] uppercase text-sm md:text-base mb-3 flex items-center gap-2">
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 pb-32 md:pb-0">
+                <p className="text-secondary font-medium tracking-[0.25em] uppercase text-xs sm:text-sm md:text-base mb-3 flex items-center gap-2">
                   <span className="w-5 h-px bg-secondary inline-block"></span>
                   Welcome to
                   <span className="w-5 h-px bg-secondary inline-block"></span>
                 </p>
-                <h1 className="font-serif text-white text-3xl md:text-6xl font-bold mb-4 drop-shadow-lg">
+                <h1 className="font-serif text-white text-2xl sm:text-3xl md:text-6xl font-bold mb-3 md:mb-4 drop-shadow-lg leading-tight">
                   {site.name}
                 </h1>
-                <p className="text-white/90 font-serif text-lg md:text-2xl mb-4 max-w-2xl">
+                <p className="text-white/90 font-serif text-base sm:text-lg md:text-2xl mb-3 md:mb-4 max-w-2xl">
                   {site.tagline}
                 </p>
-                <p className="text-white/80 text-sm md:text-base max-w-xl mb-7">
+                <p className="text-white/80 text-xs sm:text-sm md:text-base max-w-xl mb-5 md:mb-7 px-2">
                   {slide.text}
                 </p>
 
-                <div className="flex flex-col sm:flex-row items-center gap-5">
+                <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 w-full max-w-md sm:max-w-none">
                   <a
                     href={whatsappLink(STAY_MSG)}
                     target="_blank"
                     rel="noopener noreferrer"
+                    className="w-full sm:w-auto"
                   >
-                    <button className="btn-primary">
-                      <span className="flex items-center gap-2">
+                    <button className="btn-primary w-full sm:w-auto">
+                      <span className="flex items-center justify-center gap-2">
                         <FaWhatsapp /> Book Your Stay
                       </span>
                     </button>
                   </a>
-                  <div className="flex items-center gap-2 text-white text-sm md:text-base">
+                  <div className="flex items-center justify-center gap-2 text-white text-xs sm:text-sm md:text-base whitespace-nowrap">
                     <FaStar className="text-secondary" />
                     <span className="font-semibold">{site.rating}</span>
                     <span className="text-white/70">·</span>
@@ -140,50 +141,50 @@ const Hero1 = () => {
         </div>
       </section>
 
-      <section className="relative md:bottom-12 md:px-4 mx-auto md:flex justify-center">
+      <section className="relative -mt-24 md:mt-0 md:bottom-12 px-4 mx-auto md:flex justify-center z-20">
         <div className="inline-block w-full md:w-auto">
-          <div className="bg-white rounded-2xl md:shadow-lg flex flex-col md:flex-row md:items-center items-left gap-4 px-6 py-5 w-full max-w-6xl">
+          <div className="bg-white rounded-2xl shadow-lg grid grid-cols-2 md:flex md:flex-row md:items-center gap-3 sm:gap-4 px-4 sm:px-6 py-4 sm:py-5 w-full max-w-6xl">
             {/* Check In */}
-            <div className="flex flex-col md:px-2">
-              <span className="font-semibold text-gray-900 mb-1">Check In</span>
-              <div className="flex items-center gap-2 text-gray-600">
-                <FaCalendarAlt />
+            <div className="flex flex-col md:px-2 min-w-0">
+              <span className="font-semibold text-gray-900 mb-1 text-sm md:text-base">Check In</span>
+              <div className="flex items-center gap-2 text-gray-600 min-w-0">
+                <FaCalendarAlt className="shrink-0" />
                 <DatePicker
                   selected={checkInDate}
                   onChange={(date) => setCheckInDate(date)}
                   dateFormat="dd MMM yyyy"
-                  className="outline-none w-auto bg-transparent cursor-pointer"
+                  className="outline-none w-full min-w-0 bg-transparent cursor-pointer text-sm md:text-base"
                   placeholderText="Select date"
                 />
               </div>
             </div>
 
             {/* Check Out */}
-            <div className="flex flex-col md:px-2">
-              <span className="font-semibold text-gray-900 mb-1">
+            <div className="flex flex-col md:px-2 min-w-0">
+              <span className="font-semibold text-gray-900 mb-1 text-sm md:text-base">
                 Check Out
               </span>
-              <div className="flex items-center gap-2 text-gray-600">
-                <FaCalendarAlt />
+              <div className="flex items-center gap-2 text-gray-600 min-w-0">
+                <FaCalendarAlt className="shrink-0" />
                 <DatePicker
                   selected={checkOutDate}
                   onChange={(date) => setCheckOutDate(date)}
                   dateFormat="dd MMM yyyy"
-                  className="outline-none w-auto bg-transparent cursor-pointer"
+                  className="outline-none w-full min-w-0 bg-transparent cursor-pointer text-sm md:text-base"
                   placeholderText="Select date"
                 />
               </div>
             </div>
 
             {/* Adult */}
-            <div className="flex flex-col md:px-2">
-              <span className="font-semibold text-gray-900 mb-1">Adult</span>
-              <div className="flex items-center gap-2 text-gray-600">
-                <FaUser />
+            <div className="flex flex-col md:px-2 min-w-0">
+              <span className="font-semibold text-gray-900 mb-1 text-sm md:text-base">Adult</span>
+              <div className="flex items-center gap-2 text-gray-600 min-w-0">
+                <FaUser className="shrink-0" />
                 <select
                   value={adultCount}
                   onChange={(e) => setAdultCount(parseInt(e.target.value))}
-                  className="border-none bg-transparent text-gray-600 cursor-pointer focus:outline-none"
+                  className="border-none bg-transparent text-gray-600 cursor-pointer focus:outline-none text-sm md:text-base w-full min-w-0"
                 >
                   {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
                     <option key={num} value={num}>
@@ -195,14 +196,14 @@ const Hero1 = () => {
             </div>
 
             {/* Child */}
-            <div className="flex flex-col md:px-2">
-              <span className="font-semibold text-gray-900 mb-1">Child</span>
-              <div className="flex items-center gap-2 text-gray-600">
-                <FaUser />
+            <div className="flex flex-col md:px-2 min-w-0">
+              <span className="font-semibold text-gray-900 mb-1 text-sm md:text-base">Child</span>
+              <div className="flex items-center gap-2 text-gray-600 min-w-0">
+                <FaUser className="shrink-0" />
                 <select
                   value={childCount}
                   onChange={(e) => setChildCount(parseInt(e.target.value))}
-                  className="border-none bg-transparent text-gray-600 cursor-pointer focus:outline-none"
+                  className="border-none bg-transparent text-gray-600 cursor-pointer focus:outline-none text-sm md:text-base w-full min-w-0"
                 >
                   {Array.from({ length: 20 }, (_, i) => i).map((num) => (
                     <option key={num} value={num}>
@@ -214,7 +215,7 @@ const Hero1 = () => {
             </div>
 
             {/* Button */}
-            <div className="w-full md:w-auto md:px-2 pt-4 md:pt-0">
+            <div className="col-span-2 md:col-span-1 w-full md:w-auto md:px-2 pt-2 md:pt-0">
               <button
                 onClick={handleCheckAvailability}
                 className="btn-primary w-full md:w-auto text-center"

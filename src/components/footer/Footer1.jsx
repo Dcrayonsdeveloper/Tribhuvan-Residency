@@ -18,11 +18,11 @@ export default function Footer() {
     typeof window !== "undefined" && window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
-    <footer className="bg-espresso text-amber-50/80 pt-14 px-4 md:px-20 pb-6 relative">
+    <footer className="bg-espresso text-amber-50/80 pt-12 md:pt-14 px-4 md:px-20 pb-6 relative">
       <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
           {/* Brand */}
-          <div className="md:col-span-1">
+          <div className="sm:col-span-2 md:col-span-1">
             <Image
               src="/logo.png"
               alt={site.name}
@@ -98,9 +98,9 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="flex flex-col md:flex-row justify-between items-center mt-12 pt-6 border-t border-white/10 text-sm gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-center mt-10 md:mt-12 pt-6 border-t border-white/10 text-sm gap-4 text-center md:text-left">
           <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <span className="text-amber-50/60">Made with devotion in Ayodhya</span>
             <button
               onClick={scrollTop}

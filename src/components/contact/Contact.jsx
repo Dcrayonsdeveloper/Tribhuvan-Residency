@@ -54,8 +54,8 @@ export default function ContactUs() {
   ];
 
   return (
-    <div className="container mx-auto py-20 px-4 md:px-8">
-      <div className="grid grid-cols-1 md:grid-cols-5 md:gap-12 gap-14 items-start">
+    <div className="container mx-auto py-12 md:py-20 px-4 md:px-8">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-10 md:gap-12 items-start">
         {/* Left: contact info cards */}
         <div className="md:col-span-2">
           <p className="text-secondary font-medium mb-2 flex justify-start items-center gap-2">
@@ -156,10 +156,10 @@ export default function ContactUs() {
               onChange={handleChange}
               required
               placeholder="Write a Message"
-              className="w-full bg-white px-4 py-3 border border-gray-300 focus:border-secondary rounded h-48 mb-6 outline-none"
+              className="w-full bg-white px-4 py-3 border border-gray-300 focus:border-secondary rounded h-36 md:h-48 mb-6 outline-none"
             ></textarea>
 
-            <button type="submit" className="btn-primary w-full md:w-auto">
+            <button type="submit" className="btn-primary w-full sm:w-auto">
               <span>Send Message</span>
             </button>
           </form>
@@ -167,7 +167,7 @@ export default function ContactUs() {
       </div>
 
       {/* Map */}
-      <div className="mt-16">
+      <div className="mt-12 md:mt-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-6 gap-4">
           <div>
             <p className="text-secondary font-medium mb-2 flex justify-start items-center gap-2">
@@ -183,9 +183,9 @@ export default function ContactUs() {
             href={site.mapLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-gold inline-flex w-fit"
+            className="btn-gold inline-flex w-full sm:w-fit justify-center md:self-end shrink-0"
           >
-            <span className="flex items-center gap-2">
+            <span className="flex items-center justify-center gap-2">
               Get Directions <FaExternalLinkAlt className="text-sm" />
             </span>
           </a>
@@ -194,7 +194,7 @@ export default function ContactUs() {
         <iframe
           src={site.mapEmbed}
           title="Map showing the location of The Tribhuvan Residency in Ayodhya"
-          className="w-full h-[380px] rounded-lg border-0"
+          className="w-full h-[280px] sm:h-[340px] md:h-[380px] rounded-lg border-0"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>

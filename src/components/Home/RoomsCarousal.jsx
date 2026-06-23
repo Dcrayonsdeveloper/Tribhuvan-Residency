@@ -14,8 +14,8 @@ const RoomsCarousel = () => {
   return (
     <section className="py-16 bg-white md:px-0 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
-          <div>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-8 mb-8 md:mb-10">
+          <div className="text-left">
             <p className="text-secondary font-medium mb-2 flex items-center gap-2">
               <span className="w-5 h-px bg-secondary inline-block"></span>
               Stay With Us
@@ -25,7 +25,7 @@ const RoomsCarousel = () => {
               Our Rooms
             </h2>
           </div>
-          <p className="text-gray-600 max-w-xl mt-4 md:mt-0">
+          <p className="text-gray-600 max-w-xl text-left md:text-right">
             Spotless, air-conditioned rooms with modern western bathrooms and
             24-hour hot water — a restful haven after a day of darshan, just a
             short walk from the Ram Mandir.
@@ -47,7 +47,7 @@ const RoomsCarousel = () => {
           {rooms.map((room) => (
             <SwiperSlide key={room.slug}>
               <Link href={`/rooms/${room.slug}`}>
-                <div className="bg-white rounded-xl card shadow-md overflow-hidden relative group h-[585px] cursor-pointer">
+                <div className="bg-white rounded-xl card shadow-md overflow-hidden relative group h-[420px] sm:h-[480px] md:h-[520px] lg:h-[585px] cursor-pointer">
                   <Image
                     src={room.image}
                     alt={room.name}
@@ -55,11 +55,11 @@ const RoomsCarousel = () => {
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 w-full text-white p-6">
-                    <h3 className="md:text-3xl text-xl pb-3 font-serif">
+                  <div className="absolute bottom-0 left-0 w-full text-white p-5 sm:p-6">
+                    <h3 className="md:text-3xl text-lg sm:text-xl pb-2 sm:pb-3 font-serif">
                       {room.name}
                     </h3>
-                    <div className="flex items-center gap-4 mt-1 text-sm">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 text-sm">
                       <div className="flex items-center gap-1">
                         <PiRuler className="text-lg" />
                         {room.size}
@@ -69,9 +69,9 @@ const RoomsCarousel = () => {
                         {room.guests} Guests
                       </div>
                     </div>
-                    <p className="md:text-2xl text-xl font-semibold mt-2">
+                    <p className="md:text-2xl text-lg sm:text-xl font-semibold mt-2">
                       {room.priceLabel}
-                      <span className="text-base font-normal text-white/80">
+                      <span className="text-sm sm:text-base font-normal text-white/80">
                         {" "}
                         / night
                       </span>

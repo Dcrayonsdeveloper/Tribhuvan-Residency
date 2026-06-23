@@ -12,8 +12,8 @@ export default function FAQ() {
   };
 
   return (
-    <section className="py-24 md:px-8 px-4 mx-auto max-w-5xl flex flex-col md:flex-row md:gap-12">
-      <div className="md:flex flex-col text-left basis-1/2 mb-8 md:mb-0">
+    <section className="py-12 md:py-24 md:px-8 px-4 mx-auto max-w-5xl flex flex-col md:flex-row md:gap-12">
+      <div className="flex flex-col text-left basis-1/2 mb-8 md:mb-0">
         <p className="text-secondary font-medium mb-2 flex justify-start items-center gap-2">
           <span className="w-5 h-px bg-secondary inline-block"></span>
           Got Questions?
@@ -42,7 +42,7 @@ export default function FAQ() {
               aria-expanded={activeIndex === index ? "true" : "false"}
               onClick={() => toggleFAQ(index)}
             >
-              <span className="flex-1 text-lg">{faq.q}</span>
+              <span className="flex-1 text-base md:text-lg pr-2">{faq.q}</span>
               <IoIosArrowDown
                 className={`w-5 h-5 ml-2 flex-shrink-0 transition-transform duration-300 ${
                   activeIndex === index

@@ -16,12 +16,12 @@ const Location = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Map */}
         <div className="lg:col-span-2">
-          <div className="w-full h-[400px] rounded-lg overflow-hidden shadow-sm">
+          <div className="w-full h-[280px] sm:h-[360px] md:h-[400px] rounded-lg overflow-hidden shadow-sm">
             <iframe
               src={site.mapEmbed}
               title={`${site.name} location map`}
               width="100%"
-              height="400"
+              height="100%"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
@@ -30,7 +30,7 @@ const Location = () => {
           </div>
 
           <div className="mt-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <p className="flex items-start gap-2 text-gray-600">
+            <p className="flex items-start gap-2 text-gray-600 text-sm sm:text-base">
               <FaMapMarkerAlt className="text-secondary mt-1 shrink-0" />
               {site.address}
             </p>
@@ -38,10 +38,10 @@ const Location = () => {
               href={site.mapLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="shrink-0"
+              className="shrink-0 w-full sm:w-auto"
             >
-              <button className="btn-gold">
-                <span className="flex items-center gap-2">
+              <button className="btn-gold w-full sm:w-auto">
+                <span className="flex items-center justify-center gap-2">
                   <FaDirections /> Get Directions
                 </span>
               </button>

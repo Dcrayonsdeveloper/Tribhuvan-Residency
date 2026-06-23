@@ -51,16 +51,16 @@ const ClientsReview = ({ newReview }) => {
       </h2>
 
       {/* Overall summary */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-6 bg-cream rounded-lg p-6 mb-10">
-        <div className="text-center sm:border-r sm:border-secondary/30 sm:pr-8">
-          <div className="text-5xl font-serif font-bold text-primary">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 bg-cream rounded-lg p-5 sm:p-6 mb-10">
+        <div className="text-center sm:text-left sm:border-r sm:border-secondary/30 sm:pr-8">
+          <div className="text-4xl sm:text-5xl font-serif font-bold text-primary">
             {site.rating}
           </div>
           <p className="text-secondary font-semibold mt-1">{site.ratingText}</p>
         </div>
         <div>
           <StarRating rating={site.rating} />
-          <p className="text-gray-600 mt-2">
+          <p className="text-gray-600 mt-2 text-sm sm:text-base">
             Based on {site.ratingsCount} ratings &amp; {site.reviewsCount}{" "}
             guest reviews
           </p>

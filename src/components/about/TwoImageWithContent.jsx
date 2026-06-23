@@ -7,22 +7,22 @@ const nearby = attractions.slice(0, 4);
 
 export default function TwoImageWithContent() {
   return (
-    <div className="container mx-auto py-16 md:px-8 px-4">
-      <div className="flex flex-col md:flex-row items-center space-x-6">
-        <div className="w-full md:w-1/2 relative mb-32 hidden md:block">
+    <div className="container mx-auto py-12 md:py-16 md:px-8 px-4">
+      <div className="flex flex-col md:flex-row items-center md:space-x-6 gap-8 md:gap-0">
+        <div className="w-full md:w-1/2 relative md:mb-32 grid grid-cols-2 gap-4 md:block">
           <Image
             src={image1}
             alt="Modern marble bathroom with 24-hour hot water"
             width={420}
             height={474}
-            className="rounded-lg shadow-sm object-cover"
+            className="rounded-lg shadow-sm object-cover w-full h-auto md:max-w-[420px]"
           />
           <Image
             src={image2}
             alt="Comfortable guest lounge and sitting area"
             width={365}
             height={385}
-            className="rounded-lg border-t-4 border-l-4 border-[#FFFFFF] shadow-sm absolute z-10 right-4 bottom-[-119px] object-cover"
+            className="rounded-lg border-t-4 border-l-4 border-[#FFFFFF] shadow-sm object-cover w-full h-auto md:absolute md:z-10 md:right-4 md:bottom-[-119px] md:max-w-[365px]"
           />
         </div>
         <div className="w-full md:w-1/2 text-left">

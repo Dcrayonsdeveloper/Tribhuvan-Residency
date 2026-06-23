@@ -7,7 +7,7 @@ const SimilarRoomCard = ({ room }) => {
   return (
     <Link
       href={`/rooms/${room.slug}`}
-      className="w-full md:min-w-[300px] md:flex-1 p-4 bg-white shadow-lg rounded-lg relative mb-6 block group"
+      className="w-full p-4 bg-white shadow-lg rounded-lg relative block group"
     >
       <div className="relative h-56 rounded-lg overflow-hidden">
         <Image
@@ -34,12 +34,12 @@ const SimilarRoomCard = ({ room }) => {
             <FaBed className="text-secondary" /> {room.bed}
           </span>
         </div>
-        <div className="flex items-center justify-between mt-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 mt-3">
           <p className="text-lg font-bold text-secondary">
             {room.priceLabel}
             <span className="text-sm font-normal text-gray-500"> / night</span>
           </p>
-          <span className="text-sm font-semibold text-primary">View Details →</span>
+          <span className="text-sm font-semibold text-primary whitespace-nowrap">View Details →</span>
         </div>
       </div>
     </Link>
@@ -62,7 +62,7 @@ const SimilarRooms = ({ currentSlug }) => {
       <h2 className="md:text-4xl text-2xl font-serif md:text-center text-left font-bold text-gray-900 mb-12">
         Other Rooms You May Like
       </h2>
-      <div className="md:flex md:space-x-6 pb-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-16">
         {similar.map((room) => (
           <SimilarRoomCard key={room.slug} room={room} />
         ))}
