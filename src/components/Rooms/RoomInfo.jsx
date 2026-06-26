@@ -1,8 +1,28 @@
-import { FaCheckCircle, FaSignInAlt, FaSignOutAlt, FaUserCheck, FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
-import { site, whatsappLink } from "@/data/site";
+"use client";
+import { useState } from "react";
+import { FaCheckCircle, FaSignInAlt, FaSignOutAlt, FaUserCheck, FaPhoneAlt } from "react-icons/fa";
+import { site } from "@/data/site";
+import { startRoomCheckout } from "@/lib/razorpayClient";
 
 const RoomDetailSection = ({ room }) => {
+  const [paying, setPaying] = useState(false);
+  const [error, setError] = useState("");
+
   if (!room) return null;
+
+  const handleBookNow = () => {
+    setError("");
+    setPaying(true);
+    startRoomCheckout({
+      room,
+      onError: (err) => {
+        setPaying(false);
+        if (err?.message && err.message !== "Payment cancelled") {
+          setError(err.message);
+        }
+      },
+    });
+  };
 
   return (
     <section className="max-w-7xl mx-auto md:px-8 px-4 md:py-16 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-10">
@@ -92,20 +112,21 @@ const RoomDetailSection = ({ room }) => {
             {site.phoneDisplay}
           </a>
 
-          <a
-            href={whatsappLink(
-              `Hello! I'd like to book the ${room.name} (${room.priceLabel}/night) at The Tribhuvan Residency. Please confirm availability.`
-            )}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block"
+          <button
+            type="button"
+            onClick={handleBookNow}
+            disabled={paying}
+            className="btn-primary w-full disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            <button className="btn-primary w-full">
-              <span className="flex items-center justify-center gap-2">
-                <FaWhatsapp /> Book on WhatsApp
-              </span>
-            </button>
-          </a>
+            <span className="flex items-center justify-center gap-2">
+              {paying ? "Opening Checkout…" : "Book Now"}
+            </span>
+          </button>
+          {error && (
+            <p className="text-sm text-red-600" role="alert">
+              {error}
+            </p>
+          )}
         </div>
       </div>
     </section>

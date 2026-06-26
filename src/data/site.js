@@ -42,12 +42,6 @@ export const site = {
   whatsapp: "919953969721",
 };
 
-// Build a WhatsApp click-to-chat link with a pre-filled message.
-export function whatsappLink(message) {
-  const base = `https://wa.me/${site.whatsapp}`;
-  return message ? `${base}?text=${encodeURIComponent(message)}` : base;
-}
-
 export const navLinks = [
   { label: "Home", href: "/" },
   { label: "Rooms", href: "/rooms" },

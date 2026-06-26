@@ -6,10 +6,7 @@ import { IoIosClose } from "react-icons/io";
 import { HiOutlineMenu } from "react-icons/hi";
 import Image from "next/image";
 import Link from "next/link";
-import { site, navLinks, whatsappLink } from "@/data/site";
-
-const BOOK_MSG =
-  "Hello! I'd like to book a room at The Tribhuvan Residency. Please share availability and tariff.";
+import { site, navLinks } from "@/data/site";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -65,17 +62,15 @@ const Header = () => {
             ))}
           </div>
 
-          <a
-            href={whatsappLink(BOOK_MSG)}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/rooms"
             onClick={() => setMenuOpen(false)}
             className="w-full"
           >
             <button className="btn-primary w-full text-center">
               <span>Book Now</span>
             </button>
-          </a>
+          </Link>
 
           <div className="mt-2">
             <h3 className="text-lg font-semibold text-primary mb-3">Contact</h3>
@@ -151,11 +146,11 @@ const Header = () => {
             <span className="block text-xs text-gray-400">Reservations</span>
             <span className="font-semibold text-primary">{site.phoneDisplay}</span>
           </a>
-          <a href={whatsappLink(BOOK_MSG)} target="_blank" rel="noopener noreferrer">
+          <Link href="/rooms">
             <button className="btn-primary">
               <span>Book Now</span>
             </button>
-          </a>
+          </Link>
         </div>
 
         <div className="lg:hidden flex items-center">

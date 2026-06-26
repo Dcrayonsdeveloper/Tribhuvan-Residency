@@ -1,13 +1,12 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format } from "date-fns";
-import { FaCalendarAlt, FaUser, FaStar, FaWhatsapp } from "react-icons/fa";
-import { site, whatsappLink } from "@/data/site";
-
-const STAY_MSG =
-  "Hello! I'd like to book my stay at The Tribhuvan Residency, Ayodhya. Please share availability and tariff.";
+import { FaCalendarAlt, FaUser, FaStar } from "react-icons/fa";
+import { site } from "@/data/site";
 
 const slides = [
   {
@@ -36,26 +35,25 @@ const Hero1 = () => {
 
   const sliderRef = useRef(null);
   const autoSlideRef = useRef(null);
+  const router = useRouter();
 
   const handleCheckAvailability = () => {
-    const fmt = (d) => {
+    const toISO = (d) => {
       try {
-        return format(d, "dd MMM yyyy");
+        return format(d, "yyyy-MM-dd");
       } catch {
-        return "—";
+        return "";
       }
     };
-    const guests =
-      `${adultCount} Adult${adultCount > 1 ? "s" : ""}` +
-      (childCount > 0
-        ? `, ${childCount} Child${childCount > 1 ? "ren" : ""}`
-        : "");
-    const msg =
-      `Hello! I'd like to check room availability at The Tribhuvan Residency.\n` +
-      `Check-in: ${fmt(checkInDate)}\n` +
-      `Check-out: ${fmt(checkOutDate)}\n` +
-      `Guests: ${guests}`;
-    window.open(whatsappLink(msg), "_blank", "noopener,noreferrer");
+    router.push({
+      pathname: "/rooms",
+      query: {
+        checkIn: toISO(checkInDate),
+        checkOut: toISO(checkOutDate),
+        adults: adultCount,
+        children: childCount,
+      },
+    });
   };
 
   useEffect(() => {
@@ -112,18 +110,13 @@ const Hero1 = () => {
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 w-full max-w-md sm:max-w-none">
-                  <a
-                    href={whatsappLink(STAY_MSG)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-auto"
-                  >
+                  <Link href="/rooms" className="w-full sm:w-auto">
                     <button className="btn-primary w-full sm:w-auto">
                       <span className="flex items-center justify-center gap-2">
-                        <FaWhatsapp /> Book Your Stay
+                        Book Your Stay
                       </span>
                     </button>
-                  </a>
+                  </Link>
                   <div className="flex items-center justify-center gap-2 text-white text-xs sm:text-sm md:text-base whitespace-nowrap">
                     <FaStar className="text-secondary" />
                     <span className="font-semibold">{site.rating}</span>
@@ -221,7 +214,7 @@ const Hero1 = () => {
                 className="btn-primary w-full md:w-auto text-center"
               >
                 <span className="flex items-center justify-center gap-2">
-                  <FaWhatsapp /> Check Availability
+                  Check Availability
                 </span>
               </button>
             </div>

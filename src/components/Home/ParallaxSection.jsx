@@ -1,10 +1,8 @@
 "use client";
 import React from "react";
-import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
-import { site, whatsappLink } from "@/data/site";
-
-const PARALLAX_MSG =
-  "Hello! I'd like to book my divine stay at The Tribhuvan Residency, near Shree Ram Mandir, Ayodhya.";
+import Link from "next/link";
+import { FaPhoneAlt } from "react-icons/fa";
+import { site } from "@/data/site";
 
 export default function ParallaxSection() {
   return (
@@ -34,13 +32,13 @@ export default function ParallaxSection() {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5 w-full max-w-sm sm:max-w-none">
-          <a href={whatsappLink(PARALLAX_MSG)} target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+          <Link href="/rooms" className="w-full sm:w-auto">
             <button className="btn-gold w-full sm:w-auto">
               <span className="flex items-center justify-center gap-2">
-                <FaWhatsapp /> Book Now
+                Book Now
               </span>
             </button>
-          </a>
+          </Link>
           <a
             href={`tel:${site.phone}`}
             className="flex items-center gap-2 text-white text-base sm:text-lg font-semibold hover:text-secondary transition-colors"
