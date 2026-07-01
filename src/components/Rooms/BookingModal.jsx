@@ -17,6 +17,12 @@ function tomorrowISO() {
   return toISODate(d);
 }
 
+function dayAfterISO(iso) {
+  const d = iso ? new Date(iso) : new Date();
+  d.setDate(d.getDate() + 1);
+  return toISODate(d);
+}
+
 export default function BookingModal({
   open,
   onClose,
@@ -54,8 +60,11 @@ export default function BookingModal({
 
   useEffect(() => {
     if (!open) return;
-    setCheckIn(initialCheckIn || todayISO());
-    setCheckOut(initialCheckOut || tomorrowISO());
+    const inISO = initialCheckIn || todayISO();
+    let outISO = initialCheckOut || tomorrowISO();
+    if (outISO <= inISO) outISO = dayAfterISO(inISO);
+    setCheckIn(inISO);
+    setCheckOut(outISO);
     setAdults(Number(initialAdults) || 1);
     setChildren(Number(initialChildren) || 0);
     setQuantity(1);
@@ -71,6 +80,8 @@ export default function BookingModal({
     if (!open || !room?.slug) return;
     if (!checkIn || !checkOut || nights <= 0) {
       setAvailability(null);
+      setAvailLoading(false);
+      setAvailError("");
       return;
     }
     const myId = ++fetchIdRef.current;
@@ -210,10 +221,8 @@ export default function BookingModal({
                   onChange={(e) => {
                     const v = e.target.value;
                     setCheckIn(v);
-                    if (v && checkOut && v >= checkOut) {
-                      const d = new Date(v);
-                      d.setDate(d.getDate() + 1);
-                      setCheckOut(toISODate(d));
+                    if (v && (!checkOut || v >= checkOut)) {
+                      setCheckOut(dayAfterISO(v));
                     }
                   }}
                   className="w-full outline-none bg-transparent text-sm sm:text-base"
@@ -228,8 +237,15 @@ export default function BookingModal({
                 <input
                   type="date"
                   value={checkOut}
-                  min={checkIn || todayISO()}
-                  onChange={(e) => setCheckOut(e.target.value)}
+                  min={dayAfterISO(checkIn || todayISO())}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    if (v && checkIn && v <= checkIn) {
+                      setCheckOut(dayAfterISO(checkIn));
+                    } else {
+                      setCheckOut(v);
+                    }
+                  }}
                   className="w-full outline-none bg-transparent text-sm sm:text-base"
                   required
                 />
@@ -367,24 +383,30 @@ export default function BookingModal({
           </div>
 
           {/* Price breakdown */}
-          <div className="rounded-lg bg-white border border-gray-200 p-4 space-y-2 text-sm">
-            <div className="flex justify-between text-gray-600">
-              <span>
-                {priceFmt(room.price)} × {nights} night{nights !== 1 ? "s" : ""}
-                {" × "}
-                {quantity} room{quantity !== 1 ? "s" : ""}
-              </span>
-              <span className="text-gray-900 font-medium">
-                {priceFmt(grandTotal)}
-              </span>
+          {nights > 0 ? (
+            <div className="rounded-lg bg-white border border-gray-200 p-4 space-y-2 text-sm">
+              <div className="flex justify-between text-gray-600">
+                <span>
+                  {priceFmt(room.price)} × {nights} night{nights !== 1 ? "s" : ""}
+                  {" × "}
+                  {quantity} room{quantity !== 1 ? "s" : ""}
+                </span>
+                <span className="text-gray-900 font-medium">
+                  {priceFmt(grandTotal)}
+                </span>
+              </div>
+              <div className="border-t border-gray-200 pt-2 flex justify-between items-center">
+                <span className="font-semibold text-gray-900">Total Payable</span>
+                <span className="text-xl font-bold text-secondary">
+                  {priceFmt(grandTotal)}
+                </span>
+              </div>
             </div>
-            <div className="border-t border-gray-200 pt-2 flex justify-between items-center">
-              <span className="font-semibold text-gray-900">Total Payable</span>
-              <span className="text-xl font-bold text-secondary">
-                {priceFmt(grandTotal)}
-              </span>
+          ) : (
+            <div className="rounded-lg bg-red-50 border border-red-200 p-4 text-sm text-red-700" role="alert">
+              Check-out must be at least one day after check-in. Please pick a valid date range.
             </div>
-          </div>
+          )}
 
           {error && (
             <p
