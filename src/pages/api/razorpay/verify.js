@@ -1,6 +1,7 @@
 import { verifyPaymentSignature } from "@/lib/razorpay";
 import { saveBooking } from "@/lib/bookings";
 import { rooms } from "@/data/site";
+import { nightsBetween } from "@/lib/dates";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -13,6 +14,9 @@ export default async function handler(req, res) {
     razorpay_payment_id,
     razorpay_signature,
     roomSlug,
+    checkIn,
+    checkOut,
+    quantity,
     guest,
   } = req.body || {};
 
@@ -31,6 +35,9 @@ export default async function handler(req, res) {
   }
 
   const room = rooms.find((r) => r.slug === roomSlug) || null;
+  const nights = nightsBetween(checkIn, checkOut);
+  const qty = Math.max(1, parseInt(quantity, 10) || 1);
+  const totalRupees = room && nights > 0 ? nights * Number(room.price) * qty : null;
 
   const booking = {
     paymentId: razorpay_payment_id,
@@ -38,7 +45,12 @@ export default async function handler(req, res) {
     roomSlug: roomSlug || null,
     roomName: room?.name || null,
     priceLabel: room?.priceLabel || null,
-    amount: room?.price || null,
+    pricePerNight: room?.price || null,
+    checkIn: checkIn || null,
+    checkOut: checkOut || null,
+    nights,
+    quantity: qty,
+    totalAmount: totalRupees,
     currency: "INR",
     guest: guest || null,
     status: "paid",

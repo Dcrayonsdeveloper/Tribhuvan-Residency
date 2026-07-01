@@ -112,6 +112,7 @@ export const rooms = [
     bathrooms: 1,
     price: 2400,
     priceLabel: "₹2,400",
+    inventory: 5,
     featured: false,
     image: "/images/tribhuvan/hotel-2.jpg",
     gallery: [
@@ -144,6 +145,7 @@ export const rooms = [
     bathrooms: 1,
     price: 2700,
     priceLabel: "₹2,700",
+    inventory: 5,
     featured: true,
     image: "/images/tribhuvan/super-deluxe-room.jpeg",
     gallery: [
@@ -176,6 +178,7 @@ export const rooms = [
     bathrooms: 1,
     price: 3100,
     priceLabel: "₹3,100",
+    inventory: 5,
     featured: false,
     image: "/images/tribhuvan/guest-4.jpg",
     gallery: [

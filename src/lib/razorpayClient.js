@@ -23,14 +23,32 @@ function loadRazorpayScript() {
   });
 }
 
-export async function startRoomCheckout({ room, guest, onSuccess, onError }) {
+export async function startRoomCheckout({
+  room,
+  checkIn,
+  checkOut,
+  quantity,
+  guest,
+  onSuccess,
+  onError,
+}) {
   try {
     if (!room?.slug) throw new Error("Room is required");
+    if (!checkIn || !checkOut)
+      throw new Error("Please pick check-in and check-out dates");
+    if (!guest?.name || !guest?.email || !guest?.phone)
+      throw new Error("Please fill in your name, email and phone");
 
     const orderRes = await fetch("/api/razorpay/create-order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ roomSlug: room.slug }),
+      body: JSON.stringify({
+        roomSlug: room.slug,
+        checkIn,
+        checkOut,
+        quantity: quantity || 1,
+        guest,
+      }),
     });
 
     if (!orderRes.ok) {
@@ -50,12 +68,14 @@ export async function startRoomCheckout({ room, guest, onSuccess, onError }) {
       currency: order.currency,
       order_id: order.orderId,
       name: site.name,
-      description: `Booking — ${order.room.name}`,
+      description: `${order.quantity} × ${order.room.name} · ${order.nights} night${
+        order.nights > 1 ? "s" : ""
+      }`,
       image: "/logo.png",
       prefill: {
-        name: guest?.name || "",
-        email: guest?.email || site.email,
-        contact: guest?.phone || site.phone,
+        name: guest.name,
+        email: guest.email,
+        contact: guest.phone,
       },
       theme: { color: "#8a5a2b" },
       handler: async (response) => {
@@ -66,7 +86,10 @@ export async function startRoomCheckout({ room, guest, onSuccess, onError }) {
             body: JSON.stringify({
               ...response,
               roomSlug: room.slug,
-              guest: guest || null,
+              checkIn,
+              checkOut,
+              quantity: order.quantity,
+              guest,
             }),
           });
           const data = await verifyRes.json();

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
 import Header from "@/components/header/Header1";
 import Footer from "@/components/footer/Footer1";
+import { formatDisplay as formatDate } from "@/lib/dates";
 
 export default function BookingSuccess() {
   const router = useRouter();
@@ -66,8 +67,9 @@ export default function BookingSuccess() {
                 Booking Confirmed
               </h1>
               <p className="text-gray-600 mb-6 text-center">
-                Thank you for booking with The Tribhuvan Residency. A confirmation
-                will be shared with you shortly.
+                Thank you {state.booking.guest?.name ? state.booking.guest.name : ""}
+                {" "}for booking with The Tribhuvan Residency. A confirmation will
+                be shared with you shortly.
               </p>
 
               <div className="bg-cream rounded-lg p-5 sm:p-6 space-y-3">
@@ -81,10 +83,37 @@ export default function BookingSuccess() {
                 {state.booking.roomName && (
                   <Row label="Room" value={state.booking.roomName} />
                 )}
-                {state.booking.priceLabel && (
+                {state.booking.quantity && (
+                  <Row
+                    label="Rooms Booked"
+                    value={`${state.booking.quantity} × ${state.booking.roomName || "room"}`}
+                  />
+                )}
+                {state.booking.checkIn && (
+                  <Row label="Check-in" value={formatDate(state.booking.checkIn)} />
+                )}
+                {state.booking.checkOut && (
+                  <Row label="Check-out" value={formatDate(state.booking.checkOut)} />
+                )}
+                {state.booking.nights ? (
+                  <Row
+                    label="Duration"
+                    value={`${state.booking.nights} night${state.booking.nights > 1 ? "s" : ""}`}
+                  />
+                ) : null}
+                {state.booking.guest?.name && (
+                  <Row label="Guest" value={state.booking.guest.name} />
+                )}
+                {state.booking.guest?.email && (
+                  <Row label="Email" value={state.booking.guest.email} />
+                )}
+                {state.booking.guest?.phone && (
+                  <Row label="Phone" value={state.booking.guest.phone} />
+                )}
+                {typeof state.booking.totalAmount === "number" && (
                   <Row
                     label="Amount Paid"
-                    value={`${state.booking.priceLabel} / night`}
+                    value={`₹${state.booking.totalAmount.toLocaleString("en-IN")}`}
                   />
                 )}
                 {state.booking.createdAt && (

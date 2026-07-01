@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 import {
   FaCamera,
@@ -16,9 +17,19 @@ import Link from "next/link";
 import { rooms } from "@/data/site";
 
 const RoomCard = () => {
+  const router = useRouter();
   const [showGalleryModal, setShowGalleryModal] = useState(false);
   const [currentImages, setCurrentImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const passThrough = {};
+  ["checkIn", "checkOut", "adults", "children"].forEach((k) => {
+    if (typeof router.query[k] === "string") passThrough[k] = router.query[k];
+  });
+  const detailHref = (slug) => ({
+    pathname: `/rooms/${slug}`,
+    query: passThrough,
+  });
 
   useEffect(() => {
     if (showGalleryModal) {
@@ -62,7 +73,7 @@ const RoomCard = () => {
           className="bg-white md:h-80 rounded-lg overflow-hidden shadow-sm md:shadow-md flex flex-col md:flex-row border border-gray-100"
         >
           <div className="relative md:w-1/2 w-full h-56 sm:h-64 md:h-auto">
-            <Link href={`/rooms/${room.slug}`}>
+            <Link href={detailHref(room.slug)}>
               <Image
                 src={room.image}
                 alt={room.name}
@@ -87,7 +98,7 @@ const RoomCard = () => {
           <div className="flex-1 p-4 sm:p-6 flex flex-col justify-between gap-4">
             <div>
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-3">
-                <Link href={`/rooms/${room.slug}`}>
+                <Link href={detailHref(room.slug)}>
                   <h2 className="md:text-2xl text-lg sm:text-xl font-serif font-semibold text-gray-900 hover:text-secondary transition-colors">
                     {room.name}
                   </h2>
@@ -130,7 +141,7 @@ const RoomCard = () => {
             </div>
 
             <div>
-              <Link href={`/rooms/${room.slug}`}>
+              <Link href={detailHref(room.slug)}>
                 <button className="btn-primary w-full sm:w-auto">
                   <span>View Details</span>
                 </button>

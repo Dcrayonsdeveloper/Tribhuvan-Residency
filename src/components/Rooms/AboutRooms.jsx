@@ -1,25 +1,7 @@
 "use client";
-import { useState } from "react";
 import { FaUsers, FaExpandArrowsAlt, FaBed, FaBath } from "react-icons/fa";
-import { startRoomCheckout } from "@/lib/razorpayClient";
 
-const RoomInfoCard = ({ room }) => {
-  const [paying, setPaying] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleBookNow = () => {
-    setError("");
-    setPaying(true);
-    startRoomCheckout({
-      room,
-      onError: (err) => {
-        setPaying(false);
-        if (err?.message && err.message !== "Payment cancelled") {
-          setError(err.message);
-        }
-      },
-    });
-  };
+const RoomInfoCard = ({ room, onBook }) => {
 
   if (!room) return null;
 
@@ -58,19 +40,13 @@ const RoomInfoCard = ({ room }) => {
             <p className="text-gray-600 mt-3 max-w-xl">{room.short}</p>
             <button
               type="button"
-              onClick={handleBookNow}
-              disabled={paying}
-              className="btn-gold w-full sm:w-auto mt-5 disabled:opacity-70 disabled:cursor-not-allowed"
+              onClick={onBook}
+              className="btn-gold w-full sm:w-auto mt-5"
             >
               <span className="flex items-center justify-center gap-2">
-                {paying ? "Opening Checkout…" : "Book Now"}
+                Book Now
               </span>
             </button>
-            {error && (
-              <p className="text-sm text-red-600 mt-3" role="alert">
-                {error}
-              </p>
-            )}
           </div>
 
           {/* Quick Facts */}
