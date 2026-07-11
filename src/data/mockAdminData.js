@@ -117,30 +117,12 @@ export const mockRooms = [
 ];
 
 // ─── GUESTS ─────────────────────────────────────────────────────────────────
-export const mockGuests = [
-  { id: 1, name: "Rajesh Kumar", phone: "9876543210", email: "rajesh@gmail.com", address: "New Delhi, India", idType: "Aadhar Card", idNumber: "XXXX-XXXX-1234", stays: 3, lastBooking: "2025-06-10", vip: true, notes: "Prefers top floor room" },
-  { id: 2, name: "Priya Sharma", phone: "9812345678", email: "priya.sharma@yahoo.com", address: "Mumbai, India", idType: "Passport", idNumber: "P1234567", stays: 1, lastBooking: "2025-05-20", vip: false, notes: "" },
-  { id: 3, name: "Amit Verma", phone: "9988776655", email: "amit.v@gmail.com", address: "Bangalore, India", idType: "Driving License", idNumber: "KA05-2019-123456", stays: 2, lastBooking: "2025-06-01", vip: false, notes: "Vegetarian meals only" },
-  { id: 4, name: "Sunita Joshi", phone: "7654321098", email: "sunita.j@hotmail.com", address: "Kathmandu, Nepal", idType: "Passport", idNumber: "N9876543", stays: 5, lastBooking: "2025-06-15", vip: true, notes: "Regular guest, provide complimentary fruit basket" },
-  { id: 5, name: "David Wilson", phone: "9001122334", email: "david.w@gmail.com", address: "London, UK", idType: "Passport", idNumber: "GB1234567", stays: 1, lastBooking: "2025-04-10", vip: false, notes: "" },
-  { id: 6, name: "Meera Patel", phone: "8877665544", email: "meera.p@gmail.com", address: "Ahmedabad, India", idType: "Aadhar Card", idNumber: "XXXX-XXXX-5678", stays: 2, lastBooking: "2025-06-12", vip: false, notes: "" },
-  { id: 7, name: "Arjun Singh", phone: "9123456780", email: "arjun.s@email.com", address: "Chandigarh, India", idType: "PAN Card", idNumber: "ABCDE1234F", stays: 4, lastBooking: "2025-06-18", vip: true, notes: "Corporate client" },
-  { id: 8, name: "Kavya Reddy", phone: "9955443322", email: "kavya.r@gmail.com", address: "Hyderabad, India", idType: "Aadhar Card", idNumber: "XXXX-XXXX-9012", stays: 1, lastBooking: "2025-05-05", vip: false, notes: "" },
-];
+// Data source cleared — populate from real guests (e.g. a database or API).
+export const mockGuests = [];
 
 // ─── BOOKINGS ────────────────────────────────────────────────────────────────
-export const mockBookings = [
-  { id: "TRB-001", guestId: 1, guestName: "Rajesh Kumar", phone: "9876543210", email: "rajesh@gmail.com", room: "Deluxe Room (201)", checkIn: "2025-06-20", checkOut: "2025-06-23", guests: 2, nights: 3, totalAmount: 10500, paymentStatus: "Paid", bookingStatus: "Confirmed", createdAt: "2025-06-15" },
-  { id: "TRB-002", guestId: 2, guestName: "Priya Sharma", phone: "9812345678", email: "priya.sharma@yahoo.com", room: "Standard Room (101)", checkIn: "2025-06-21", checkOut: "2025-06-22", guests: 1, nights: 1, totalAmount: 2200, paymentStatus: "Paid", bookingStatus: "Confirmed", createdAt: "2025-06-17" },
-  { id: "TRB-003", guestId: 3, guestName: "Amit Verma", phone: "9988776655", email: "amit.v@gmail.com", room: "Premium Suite (301)", checkIn: "2025-06-22", checkOut: "2025-06-25", guests: 2, nights: 3, totalAmount: 19500, paymentStatus: "Partial", bookingStatus: "Pending", createdAt: "2025-06-18" },
-  { id: "TRB-004", guestId: 4, guestName: "Sunita Joshi", phone: "7654321098", email: "sunita.j@hotmail.com", room: "Royal Suite (401)", checkIn: "2025-06-15", checkOut: "2025-06-17", guests: 2, nights: 2, totalAmount: 24000, paymentStatus: "Paid", bookingStatus: "Checked-out", createdAt: "2025-06-10" },
-  { id: "TRB-005", guestId: 5, guestName: "David Wilson", phone: "9001122334", email: "david.w@gmail.com", room: "Deluxe Room (201)", checkIn: "2025-06-19", checkOut: "2025-06-21", guests: 1, nights: 2, totalAmount: 7000, paymentStatus: "Paid", bookingStatus: "Checked-in", createdAt: "2025-06-14" },
-  { id: "TRB-006", guestId: 6, guestName: "Meera Patel", phone: "8877665544", email: "meera.p@gmail.com", room: "Family Room (202)", checkIn: "2025-06-25", checkOut: "2025-06-28", guests: 4, nights: 3, totalAmount: 15000, paymentStatus: "Pending", bookingStatus: "Pending", createdAt: "2025-06-19" },
-  { id: "TRB-007", guestId: 7, guestName: "Arjun Singh", phone: "9123456780", email: "arjun.s@email.com", room: "Standard Room (101)", checkIn: "2025-06-18", checkOut: "2025-06-20", guests: 1, nights: 2, totalAmount: 4400, paymentStatus: "Paid", bookingStatus: "Checked-in", createdAt: "2025-06-12" },
-  { id: "TRB-008", guestId: 8, guestName: "Kavya Reddy", phone: "9955443322", email: "kavya.r@gmail.com", room: "Premium Suite (301)", checkIn: "2025-06-28", checkOut: "2025-07-01", guests: 2, nights: 3, totalAmount: 19500, paymentStatus: "Pending", bookingStatus: "Pending", createdAt: "2025-06-20" },
-  { id: "TRB-009", guestId: 1, guestName: "Rajesh Kumar", phone: "9876543210", email: "rajesh@gmail.com", room: "Royal Suite (401)", checkIn: "2025-05-10", checkOut: "2025-05-12", guests: 2, nights: 2, totalAmount: 24000, paymentStatus: "Paid", bookingStatus: "Checked-out", createdAt: "2025-05-05" },
-  { id: "TRB-010", guestId: 3, guestName: "Amit Verma", phone: "9988776655", email: "amit.v@gmail.com", room: "Budget Single (102)", checkIn: "2025-06-30", checkOut: "2025-07-02", guests: 1, nights: 2, totalAmount: 3200, paymentStatus: "Paid", bookingStatus: "Confirmed", createdAt: "2025-06-20" },
-];
+// Data source cleared — populate from real bookings (e.g. bookings.json / API).
+export const mockBookings = [];
 
 // ─── GALLERY ─────────────────────────────────────────────────────────────────
 export const mockGallery = [
@@ -188,36 +170,16 @@ export const mockTestimonials = [
 ];
 
 // ─── INQUIRIES ────────────────────────────────────────────────────────────────
-export const mockInquiries = [
-  { id: "INQ-001", name: "Rahul Gupta", phone: "9876501234", email: "rahul.g@gmail.com", subject: "Room Availability for Wedding", message: "I need 10 rooms for 3 nights in December for a family wedding. Please send me the group booking rates.", date: "2025-06-19", status: "New" },
-  { id: "INQ-002", name: "Lisa Chen", phone: "9988001122", email: "lisa.c@yahoo.com", subject: "Corporate Booking Inquiry", message: "Our company needs accommodation for 5 executives for a 2-day conference. Looking for conference hall as well.", date: "2025-06-18", status: "Replied" },
-  { id: "INQ-003", name: "Vinod Kapoor", phone: "7894561230", email: "vinod.k@hotmail.com", subject: "Cancellation Policy", message: "I have a booking for next week (TRB-003). Due to unforeseen circumstances I may need to cancel. What is your cancellation policy?", date: "2025-06-17", status: "Replied" },
-  { id: "INQ-004", name: "Meera Singh", phone: "8800112233", email: "meera.s@gmail.com", subject: "Honeymoon Package Details", message: "Hi, my fiancé and I are planning our honeymoon for August. Could you share details about your honeymoon packages?", date: "2025-06-16", status: "New" },
-  { id: "INQ-005", name: "James Brown", phone: "9001234567", email: "j.brown@company.com", subject: "Long Stay Discount", message: "I am planning to stay for 2 weeks. Do you offer long-stay discounts? Please share details.", date: "2025-06-15", status: "Closed" },
-  { id: "INQ-006", name: "Pooja Nair", phone: "9823456789", email: "pooja.n@gmail.com", subject: "Pool and Spa Availability", message: "Does the hotel have a swimming pool and spa? I want to plan a wellness retreat.", date: "2025-06-14", status: "New" },
-  { id: "INQ-007", name: "Karan Mehta", phone: "9871234560", email: "karan.m@email.com", subject: "Birthday Decoration Request", message: "I am planning a surprise birthday for my wife. Can the hotel arrange in-room decoration?", date: "2025-06-13", status: "Replied" },
-];
+// Data source cleared — populate from real contact-form inquiries (API/DB).
+export const mockInquiries = [];
 
 // ─── PAYMENTS ────────────────────────────────────────────────────────────────
-export const mockPayments = [
-  { id: "PAY-001", bookingId: "TRB-001", guestName: "Rajesh Kumar", amount: 10500, date: "2025-06-15", method: "UPI", reference: "UPI123456789", status: "Completed", notes: "" },
-  { id: "PAY-002", bookingId: "TRB-002", guestName: "Priya Sharma", amount: 2200, date: "2025-06-17", method: "Card", reference: "CARD987654321", status: "Completed", notes: "" },
-  { id: "PAY-003", bookingId: "TRB-003", guestName: "Amit Verma", amount: 10000, date: "2025-06-18", method: "Bank Transfer", reference: "NEFT20250618", status: "Completed", notes: "Partial payment - balance ₹9,500 pending" },
-  { id: "PAY-004", bookingId: "TRB-004", guestName: "Sunita Joshi", amount: 24000, date: "2025-06-10", method: "UPI", reference: "UPI987123456", status: "Completed", notes: "" },
-  { id: "PAY-005", bookingId: "TRB-005", guestName: "David Wilson", amount: 7000, date: "2025-06-14", method: "Card", reference: "CARD112233445", status: "Completed", notes: "" },
-  { id: "PAY-006", bookingId: "TRB-007", guestName: "Arjun Singh", amount: 4400, date: "2025-06-12", method: "Cash", reference: "CASH-20250612", status: "Completed", notes: "" },
-  { id: "PAY-007", bookingId: "TRB-009", guestName: "Rajesh Kumar", amount: 24000, date: "2025-05-05", method: "UPI", reference: "UPI456789123", status: "Completed", notes: "" },
-  { id: "PAY-008", bookingId: "TRB-010", guestName: "Amit Verma", amount: 3200, date: "2025-06-20", method: "UPI", reference: "UPI111222333", status: "Completed", notes: "" },
-];
+// Data source cleared — populate from real payment records (Razorpay/API/DB).
+export const mockPayments = [];
 
 // ─── STAFF ────────────────────────────────────────────────────────────────────
-export const mockStaff = [
-  { id: 1, name: "Tribhuvan Admin", email: "admin@tribhuvanresidency.com", phone: "9800000001", role: "Super Admin", status: true, createdAt: "2024-01-01" },
-  { id: 2, name: "Rohit Sharma", email: "rohit.sharma@tribhuvanresidency.com", phone: "9800000002", role: "Manager", status: true, createdAt: "2024-03-15" },
-  { id: 3, name: "Anita Dubey", email: "anita.dubey@tribhuvanresidency.com", phone: "9800000003", role: "Reception", status: true, createdAt: "2024-06-01" },
-  { id: 4, name: "Suresh Patel", email: "suresh.patel@tribhuvanresidency.com", phone: "9800000004", role: "Reception", status: false, createdAt: "2024-08-10" },
-  { id: 5, name: "Deepa Rani", email: "deepa.rani@tribhuvanresidency.com", phone: "9800000005", role: "Content Editor", status: true, createdAt: "2025-01-20" },
-];
+// Data source cleared — populate from real staff accounts (API/DB).
+export const mockStaff = [];
 
 // ─── CONTENT ──────────────────────────────────────────────────────────────────
 export const mockContent = {
