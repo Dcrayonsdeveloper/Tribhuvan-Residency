@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import { FiSearch, FiEye, FiTrash2, FiX, FiCheck } from "react-icons/fi";
 import AdminLayout from "@/components/admin/AdminLayout";
 import Toast from "@/components/admin/Toast";
-import { mockInquiries } from "@/data/mockAdminData";
 
 const statusColors = {
   New: "bg-blue-100 text-blue-700",
@@ -12,7 +11,8 @@ const statusColors = {
 };
 
 export default function AdminInquiries() {
-  const [inquiries, setInquiries] = useState(mockInquiries);
+  const [inquiries, setInquiries] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
   const [viewInq, setViewInq] = useState(null);
@@ -21,6 +21,14 @@ export default function AdminInquiries() {
 
   const showToast = (m, t = "success") => setToast({ message: m, type: t });
 
+  useEffect(() => {
+    fetch("/api/admin/inquiries")
+      .then((r) => r.json())
+      .then((d) => setInquiries(d.inquiries || []))
+      .catch(() => setToast({ message: "Could not load inquiries.", type: "error" }))
+      .finally(() => setLoading(false));
+  }, []);
+
   const filtered = inquiries.filter((inq) => {
     const matchFilter = filter === "All" || inq.status === filter;
     const q = search.toLowerCase();
@@ -28,16 +36,33 @@ export default function AdminInquiries() {
     return matchFilter && matchSearch;
   });
 
-  function updateStatus(id, status) {
-    setInquiries((prev) => prev.map((i) => (i.id === id ? { ...i, status } : i)));
-    showToast(`Inquiry marked as ${status}.`);
-    setViewInq((v) => v ? { ...v, status } : v);
+  async function updateStatus(id, status) {
+    try {
+      const res = await fetch("/api/admin/inquiries", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status }),
+      });
+      if (!res.ok) throw new Error();
+      setInquiries((prev) => prev.map((i) => (i.id === id ? { ...i, status } : i)));
+      setViewInq((v) => (v ? { ...v, status } : v));
+      showToast(`Inquiry marked as ${status}.`);
+    } catch {
+      showToast("Could not update inquiry.", "error");
+    }
   }
 
-  function handleDelete() {
-    setInquiries((prev) => prev.filter((i) => i.id !== deleteId));
-    setDeleteId(null);
-    showToast("Inquiry deleted.", "warning");
+  async function handleDelete() {
+    try {
+      const res = await fetch(`/api/admin/inquiries?id=${encodeURIComponent(deleteId)}`, { method: "DELETE" });
+      if (!res.ok) throw new Error();
+      setInquiries((prev) => prev.filter((i) => i.id !== deleteId));
+      showToast("Inquiry deleted.", "warning");
+    } catch {
+      showToast("Could not delete inquiry.", "error");
+    } finally {
+      setDeleteId(null);
+    }
   }
 
   return (
@@ -82,7 +107,7 @@ export default function AdminInquiries() {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {filtered.length === 0 && (
-                  <tr><td colSpan={7} className="text-center py-12 text-gray-400">No inquiries found.</td></tr>
+                  <tr><td colSpan={7} className="text-center py-12 text-gray-400">{loading ? "Loading inquiries…" : "No inquiries found."}</td></tr>
                 )}
                 {filtered.map((inq) => (
                   <tr key={inq.id} className="hover:bg-gray-50 transition-colors">

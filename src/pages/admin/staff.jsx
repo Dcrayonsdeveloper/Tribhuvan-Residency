@@ -83,6 +83,9 @@ export default function AdminStaff() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
+                {staff.length === 0 && (
+                  <tr><td colSpan={7} className="text-center py-12 text-gray-400">No staff members found.</td></tr>
+                )}
                 {staff.map((s, idx) => (
                   <tr key={s.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-4 py-3 text-gray-400 text-xs">{idx + 1}</td>

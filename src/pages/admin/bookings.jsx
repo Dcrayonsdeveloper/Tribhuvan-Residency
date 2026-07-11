@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import { FiSearch, FiEye, FiTrash2, FiX, FiCheck, FiCalendar, FiFilter } from "react-icons/fi";
 import AdminLayout from "@/components/admin/AdminLayout";
 import Toast from "@/components/admin/Toast";
-import { mockBookings } from "@/data/mockAdminData";
 
 const BOOKING_STATUSES = ["Pending", "Confirmed", "Checked-in", "Checked-out", "Cancelled"];
 const PAYMENT_STATUSES = ["Pending", "Paid", "Partial", "Refunded"];
@@ -23,7 +22,8 @@ const payColors = {
 };
 
 export default function AdminBookings() {
-  const [bookings, setBookings] = useState(mockBookings);
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
   const [filterPayment, setFilterPayment] = useState("");
@@ -34,6 +34,14 @@ export default function AdminBookings() {
 
   const showToast = (m, t = "success") => setToast({ message: m, type: t });
 
+  useEffect(() => {
+    fetch("/api/admin/bookings")
+      .then((r) => r.json())
+      .then((d) => setBookings(d.bookings || []))
+      .catch(() => setToast({ message: "Could not load bookings.", type: "error" }))
+      .finally(() => setLoading(false));
+  }, []);
+
   const filtered = bookings.filter((b) => {
     const q = search.toLowerCase();
     const matchSearch = !q || b.guestName.toLowerCase().includes(q) || b.phone.includes(q) || b.id.toLowerCase().includes(q);
@@ -43,22 +51,48 @@ export default function AdminBookings() {
     return matchSearch && matchStatus && matchPay && matchDate;
   });
 
-  function updateStatus(id, newStatus) {
-    setBookings((prev) => prev.map((b) => (b.id === id ? { ...b, bookingStatus: newStatus } : b)));
-    showToast(`Booking ${newStatus.toLowerCase()} successfully!`);
-    setViewBooking((v) => v ? { ...v, bookingStatus: newStatus } : v);
+  async function patchBookingApi(id, fields) {
+    const res = await fetch("/api/admin/bookings", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, ...fields }),
+    });
+    if (!res.ok) throw new Error("Update failed");
   }
 
-  function updatePayment(id, newPay) {
-    setBookings((prev) => prev.map((b) => (b.id === id ? { ...b, paymentStatus: newPay } : b)));
-    showToast(`Payment status updated to ${newPay}.`);
-    setViewBooking((v) => v ? { ...v, paymentStatus: newPay } : v);
+  async function updateStatus(id, newStatus) {
+    try {
+      await patchBookingApi(id, { bookingStatus: newStatus });
+      setBookings((prev) => prev.map((b) => (b.id === id ? { ...b, bookingStatus: newStatus } : b)));
+      setViewBooking((v) => (v ? { ...v, bookingStatus: newStatus } : v));
+      showToast(`Booking ${newStatus.toLowerCase()} successfully!`);
+    } catch {
+      showToast("Could not update booking.", "error");
+    }
   }
 
-  function handleDelete() {
-    setBookings((prev) => prev.filter((b) => b.id !== deleteId));
-    setDeleteId(null);
-    showToast("Booking deleted.", "warning");
+  async function updatePayment(id, newPay) {
+    try {
+      await patchBookingApi(id, { paymentStatus: newPay });
+      setBookings((prev) => prev.map((b) => (b.id === id ? { ...b, paymentStatus: newPay } : b)));
+      setViewBooking((v) => (v ? { ...v, paymentStatus: newPay } : v));
+      showToast(`Payment status updated to ${newPay}.`);
+    } catch {
+      showToast("Could not update payment.", "error");
+    }
+  }
+
+  async function handleDelete() {
+    try {
+      const res = await fetch(`/api/admin/bookings?id=${encodeURIComponent(deleteId)}`, { method: "DELETE" });
+      if (!res.ok) throw new Error();
+      setBookings((prev) => prev.filter((b) => b.id !== deleteId));
+      showToast("Booking deleted.", "warning");
+    } catch {
+      showToast("Could not delete booking.", "error");
+    } finally {
+      setDeleteId(null);
+    }
   }
 
   return (
@@ -117,7 +151,7 @@ export default function AdminBookings() {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {filtered.length === 0 && (
-                  <tr><td colSpan={10} className="text-center py-12 text-gray-400">No bookings found.</td></tr>
+                  <tr><td colSpan={10} className="text-center py-12 text-gray-400">{loading ? "Loading bookings…" : "No bookings found."}</td></tr>
                 )}
                 {filtered.map((b) => (
                   <tr key={b.id} className="hover:bg-gray-50 transition-colors">

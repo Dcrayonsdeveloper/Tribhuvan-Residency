@@ -15,15 +15,34 @@ const initialForm = { name: "", email: "", phone: "", message: "" };
 export default function ContactUs() {
   const [form, setForm] = useState(initialForm);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setForm(initialForm);
+    setSubmitting(true);
+    setError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Could not send your message.");
+      }
+      setSubmitted(true);
+      setForm(initialForm);
+    } catch (err) {
+      setError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const infoCards = [
@@ -121,6 +140,12 @@ export default function ContactUs() {
               </div>
             )}
 
+            {error && (
+              <div className="mb-6 rounded-md bg-red-50 border border-red-300 px-4 py-3 text-red-700 font-medium">
+                {error}
+              </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <input
                 type="text"
@@ -159,8 +184,8 @@ export default function ContactUs() {
               className="w-full bg-white px-4 py-3 border border-gray-300 focus:border-secondary rounded h-36 md:h-48 mb-6 outline-none"
             ></textarea>
 
-            <button type="submit" className="btn-primary w-full sm:w-auto">
-              <span>Send Message</span>
+            <button type="submit" disabled={submitting} className="btn-primary w-full sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed">
+              <span>{submitting ? "Sending…" : "Send Message"}</span>
             </button>
           </form>
         </div>

@@ -24,12 +24,48 @@ function readAll() {
   }
 }
 
-export function saveBooking(booking) {
+function writeAll(list) {
   ensureStore();
+  fs.writeFileSync(BOOKINGS_FILE, JSON.stringify(list, null, 2), "utf8");
+  return list;
+}
+
+export function saveBooking(booking) {
   const list = readAll();
   list.push(booking);
-  fs.writeFileSync(BOOKINGS_FILE, JSON.stringify(list, null, 2), "utf8");
+  writeAll(list);
   return booking;
+}
+
+// Admin: list every booking, newest first.
+export function getAllBookings() {
+  return readAll().sort((a, b) =>
+    String(b.createdAt).localeCompare(String(a.createdAt))
+  );
+}
+
+// Admin: update the mutable status fields on one booking.
+const ADMIN_PATCH_FIELDS = ["bookingStatus", "paymentStatus"];
+export function patchBooking(paymentId, fields = {}) {
+  const list = readAll();
+  const idx = list.findIndex((b) => b.paymentId === paymentId);
+  if (idx === -1) return null;
+  const patch = {};
+  for (const key of ADMIN_PATCH_FIELDS) {
+    if (fields[key] !== undefined) patch[key] = fields[key];
+  }
+  list[idx] = { ...list[idx], ...patch };
+  writeAll(list);
+  return list[idx];
+}
+
+// Admin: delete a booking permanently.
+export function removeBooking(paymentId) {
+  const list = readAll();
+  const next = list.filter((b) => b.paymentId !== paymentId);
+  if (next.length === list.length) return false;
+  writeAll(next);
+  return true;
 }
 
 export function getBooking(paymentId) {

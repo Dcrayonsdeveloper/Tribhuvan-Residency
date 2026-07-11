@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import { FiSearch, FiEye, FiTrash2, FiEdit2, FiX, FiDollarSign } from "react-icons/fi";
 import AdminLayout from "@/components/admin/AdminLayout";
 import Toast from "@/components/admin/Toast";
-import { mockPayments } from "@/data/mockAdminData";
 
 const METHODS = ["Cash", "UPI", "Card", "Bank Transfer"];
 const PAY_STATUSES = ["Completed", "Pending", "Refunded", "Failed"];
@@ -18,7 +17,8 @@ const statusColors = {
 const empty = { bookingId: "", guestName: "", amount: "", date: "", method: "UPI", reference: "", status: "Completed", notes: "" };
 
 export default function AdminPayments() {
-  const [payments, setPayments] = useState(mockPayments);
+  const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filterMethod, setFilterMethod] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
@@ -30,6 +30,14 @@ export default function AdminPayments() {
   const [toast, setToast] = useState(null);
 
   const showToast = (m, t = "success") => setToast({ message: m, type: t });
+
+  useEffect(() => {
+    fetch("/api/admin/payments")
+      .then((r) => r.json())
+      .then((d) => setPayments(d.payments || []))
+      .catch(() => setToast({ message: "Could not load payments.", type: "error" }))
+      .finally(() => setLoading(false));
+  }, []);
 
   const filtered = payments.filter((p) => {
     const q = search.toLowerCase();
@@ -119,7 +127,7 @@ export default function AdminPayments() {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {filtered.length === 0 && (
-                  <tr><td colSpan={9} className="text-center py-12 text-gray-400">No payments found.</td></tr>
+                  <tr><td colSpan={9} className="text-center py-12 text-gray-400">{loading ? "Loading payments…" : "No payments found."}</td></tr>
                 )}
                 {filtered.map((p) => (
                   <tr key={p.id} className="hover:bg-gray-50 transition-colors">

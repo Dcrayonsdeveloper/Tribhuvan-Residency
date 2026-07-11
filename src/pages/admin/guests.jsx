@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import { FiPlus, FiEdit2, FiTrash2, FiSearch, FiX, FiEye, FiStar } from "react-icons/fi";
 import AdminLayout from "@/components/admin/AdminLayout";
 import Toast from "@/components/admin/Toast";
-import { mockGuests, mockBookings } from "@/data/mockAdminData";
 
 const ID_TYPES = ["Aadhar Card", "Passport", "Driving License", "PAN Card", "Voter ID"];
 
@@ -13,7 +12,8 @@ const empty = {
 };
 
 export default function AdminGuests() {
-  const [guests, setGuests] = useState(mockGuests);
+  const [guests, setGuests] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editId, setEditId] = useState(null);
@@ -23,6 +23,14 @@ export default function AdminGuests() {
   const [toast, setToast] = useState(null);
 
   const showToast = (m, t = "success") => setToast({ message: m, type: t });
+
+  useEffect(() => {
+    fetch("/api/admin/guests")
+      .then((r) => r.json())
+      .then((d) => setGuests(d.guests || []))
+      .catch(() => setToast({ message: "Could not load guests.", type: "error" }))
+      .finally(() => setLoading(false));
+  }, []);
 
   const filtered = guests.filter((g) => {
     const q = search.toLowerCase();
@@ -62,8 +70,8 @@ export default function AdminGuests() {
     showToast("Guest deleted.", "warning");
   }
 
-  function getGuestBookings(guestId) {
-    return mockBookings.filter((b) => b.guestId === guestId);
+  function getGuestBookings(guest) {
+    return guest?.bookings || [];
   }
 
   return (
@@ -96,7 +104,7 @@ export default function AdminGuests() {
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {filtered.length === 0 && (
-                  <tr><td colSpan={7} className="text-center py-12 text-gray-400">No guests found.</td></tr>
+                  <tr><td colSpan={7} className="text-center py-12 text-gray-400">{loading ? "Loading guests…" : "No guests found."}</td></tr>
                 )}
                 {filtered.map((g, idx) => (
                   <tr key={g.id} className="hover:bg-gray-50 transition-colors">
@@ -215,11 +223,11 @@ export default function AdminGuests() {
               )}
               <div>
                 <h4 className="text-sm font-semibold text-gray-700 mb-2">Booking History</h4>
-                {getGuestBookings(viewGuest.id).length === 0 ? (
+                {getGuestBookings(viewGuest).length === 0 ? (
                   <p className="text-sm text-gray-400">No bookings found.</p>
                 ) : (
                   <div className="space-y-2">
-                    {getGuestBookings(viewGuest.id).map((b) => (
+                    {getGuestBookings(viewGuest).map((b) => (
                       <div key={b.id} className="flex justify-between items-center text-xs bg-gray-50 rounded-lg px-3 py-2">
                         <span className="font-mono text-gray-600">{b.id}</span>
                         <span className="text-gray-700">{b.room}</span>

@@ -1,16 +1,20 @@
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { FiHome, FiCalendar, FiUsers, FiDollarSign, FiMail, FiTag, FiCheckCircle, FiClock, FiPlus, FiImage } from "react-icons/fi";
 import AdminLayout from "@/components/admin/AdminLayout";
 import StatCard from "@/components/admin/StatCard";
-import { getDashboardStats, mockBookings, mockInquiries } from "@/data/mockAdminData";
 
-const recentBookings = mockBookings.slice(0, 6);
-const latestInquiries = mockInquiries.slice(0, 5);
-
-const todayStr = new Date().toISOString().split("T")[0];
-const todayCheckIns = mockBookings.filter((b) => b.checkIn === todayStr);
-const todayCheckOuts = mockBookings.filter((b) => b.checkOut === todayStr);
+const EMPTY = {
+  stats: {
+    totalRooms: 0, availableRooms: 0, bookedRooms: 0, activeOffers: 0,
+    pendingBookings: 0, totalGuests: 0, revenue: 0, newInquiries: 0, totalBookings: 0,
+  },
+  recentBookings: [],
+  latestInquiries: [],
+  todayCheckIns: [],
+  todayCheckOuts: [],
+};
 
 const statusColors = {
   Confirmed: "bg-blue-100 text-blue-700",
@@ -34,7 +38,16 @@ const inqColors = {
 };
 
 export default function Dashboard() {
-  const stats = getDashboardStats();
+  const [data, setData] = useState(EMPTY);
+
+  useEffect(() => {
+    fetch("/api/admin/stats")
+      .then((r) => r.json())
+      .then((d) => setData({ ...EMPTY, ...d, stats: { ...EMPTY.stats, ...(d.stats || {}) } }))
+      .catch(() => {});
+  }, []);
+
+  const { stats, recentBookings, latestInquiries, todayCheckIns, todayCheckOuts } = data;
 
   const cards = [
     { title: "Total Rooms", value: stats.totalRooms, icon: <FiHome />, color: "#8a5a2b" },
@@ -44,7 +57,7 @@ export default function Dashboard() {
     { title: "Total Revenue", value: `₹${stats.revenue.toLocaleString()}`, icon: <FiDollarSign />, color: "#b8902f" },
     { title: "New Inquiries", value: stats.newInquiries, icon: <FiMail />, color: "#7c3aed" },
     { title: "Active Offers", value: stats.activeOffers, icon: <FiTag />, color: "#db2777" },
-    { title: "Total Bookings", value: mockBookings.length, icon: <FiCalendar />, color: "#0891b2" },
+    { title: "Total Bookings", value: stats.totalBookings, icon: <FiCalendar />, color: "#0891b2" },
   ];
 
   return (
@@ -126,17 +139,21 @@ export default function Dashboard() {
               <h2 className="text-sm font-semibold text-gray-700">Latest Inquiries</h2>
               <Link href="/admin/inquiries" className="text-xs" style={{ color: "#b8902f" }}>View all</Link>
             </div>
-            <ul className="space-y-3">
-              {latestInquiries.map((inq) => (
-                <li key={inq.id} className="border-b border-gray-50 pb-2 last:border-0 last:pb-0">
-                  <div className="flex justify-between items-start">
-                    <p className="text-sm font-medium text-gray-700 truncate">{inq.name}</p>
-                    <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${inqColors[inq.status]}`}>{inq.status}</span>
-                  </div>
-                  <p className="text-xs text-gray-400 truncate">{inq.subject}</p>
-                </li>
-              ))}
-            </ul>
+            {latestInquiries.length === 0 ? (
+              <p className="text-sm text-gray-400 text-center py-4">No inquiries yet</p>
+            ) : (
+              <ul className="space-y-3">
+                {latestInquiries.map((inq) => (
+                  <li key={inq.id} className="border-b border-gray-50 pb-2 last:border-0 last:pb-0">
+                    <div className="flex justify-between items-start">
+                      <p className="text-sm font-medium text-gray-700 truncate">{inq.name}</p>
+                      <span className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${inqColors[inq.status]}`}>{inq.status}</span>
+                    </div>
+                    <p className="text-xs text-gray-400 truncate">{inq.subject}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
 
@@ -156,6 +173,9 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
+                {recentBookings.length === 0 && (
+                  <tr><td colSpan={8} className="text-center py-12 text-gray-400">No bookings yet</td></tr>
+                )}
                 {recentBookings.map((b) => (
                   <tr key={b.id} className="hover:bg-gray-50 transition-colors">
                     <td className="px-4 py-3 font-mono text-xs text-gray-600">{b.id}</td>
@@ -163,7 +183,7 @@ export default function Dashboard() {
                     <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{b.room}</td>
                     <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{b.checkIn}</td>
                     <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{b.checkOut}</td>
-                    <td className="px-4 py-3 font-medium text-gray-800">₹{b.totalAmount.toLocaleString()}</td>
+                    <td className="px-4 py-3 font-medium text-gray-800">₹{Number(b.totalAmount).toLocaleString()}</td>
                     <td className="px-4 py-3">
                       <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${payColors[b.paymentStatus]}`}>{b.paymentStatus}</span>
                     </td>
