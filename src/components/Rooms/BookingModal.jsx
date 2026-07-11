@@ -15,25 +15,35 @@ export default function BookingModal({ open, onClose, room }) {
   useEffect(() => {
     if (!open) return;
     document.body.style.overflow = "hidden";
+    // Close on Escape (works when the page — not the iframe — has focus).
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
     };
-  }, [open]);
+  }, [open, onClose]);
 
   if (!open || !room) return null;
 
   const ui = (
+    // h-screen (100vh) is the fallback; inline 100dvh matches the *visible*
+    // mobile viewport so the header/footer never hide behind the browser bars.
     <div
-      className="fixed inset-0 z-[1000] flex items-center justify-center p-2 sm:p-4 bg-black/70"
+      className="fixed left-0 top-0 w-full h-screen z-[1000] flex items-stretch sm:items-center justify-center p-0 sm:p-4 bg-black/70"
+      style={{ height: "100dvh" }}
       role="dialog"
       aria-modal="true"
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-6xl h-[95vh] sm:h-[92vh] flex flex-col overflow-hidden"
+        className="bg-white w-full h-full sm:h-[92vh] sm:max-w-6xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-gray-200 shrink-0">
+        {/* Header — pinned to the top of the visible screen; always tappable */}
+        <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-3 border-b border-gray-200 shrink-0">
           <div className="min-w-0">
             <p className="text-[10px] sm:text-xs uppercase tracking-widest text-secondary font-semibold">
               Reserve Your Stay
@@ -44,11 +54,11 @@ export default function BookingModal({ open, onClose, room }) {
           </div>
           <button
             type="button"
-            aria-label="Close"
+            aria-label="Close booking window"
             onClick={onClose}
-            className="text-4xl text-gray-500 hover:text-gray-800 shrink-0 ml-3"
+            className="shrink-0 flex items-center justify-center w-11 h-11 rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 active:bg-gray-300 transition-colors"
           >
-            <IoIosClose />
+            <IoIosClose className="text-4xl" />
           </button>
         </div>
 
@@ -60,8 +70,13 @@ export default function BookingModal({ open, onClose, room }) {
           referrerPolicy="no-referrer-when-downgrade"
         />
 
-        <div className="px-4 sm:px-6 py-2 border-t border-gray-200 text-center shrink-0">
-          <p className="text-[11px] sm:text-xs text-gray-500">
+        {/* Footer — pinned to the bottom of the visible screen (with safe-area
+            padding so the Close button clears the phone's home indicator) */}
+        <div
+          className="px-4 sm:px-6 py-3 border-t border-gray-200 shrink-0 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-4"
+          style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
+        >
+          <p className="order-2 sm:order-1 text-[11px] sm:text-xs text-gray-500 text-center sm:text-left">
             Booking powered by our channel manager. Trouble seeing the form?{" "}
             <a
               href={ASIA_TECH_BOOKING_URL}
@@ -73,6 +88,13 @@ export default function BookingModal({ open, onClose, room }) {
             </a>
             .
           </p>
+          <button
+            type="button"
+            onClick={onClose}
+            className="order-1 sm:order-2 w-full sm:w-auto shrink-0 px-6 py-3 rounded-lg bg-gray-900 text-white text-sm font-semibold hover:bg-gray-700 active:scale-[0.99] transition"
+          >
+            Close
+          </button>
         </div>
       </div>
     </div>
