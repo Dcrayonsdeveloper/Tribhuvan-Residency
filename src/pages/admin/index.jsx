@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { FiMail, FiLock, FiEye, FiEyeOff, FiAlertCircle } from "react-icons/fi";
-import { login, isAuthenticated } from "@/lib/adminAuth";
+import { login, checkAuth } from "@/lib/adminAuth";
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -13,9 +13,9 @@ export default function AdminLogin() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated()) {
-      router.replace("/admin/dashboard");
-    }
+    checkAuth().then((ok) => {
+      if (ok) router.replace("/admin/dashboard");
+    });
   }, [router]);
 
   async function handleSubmit(e) {
@@ -26,8 +26,7 @@ export default function AdminLogin() {
       return;
     }
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 600));
-    const result = login(email, password);
+    const result = await login(email, password);
     setLoading(false);
     if (result.success) {
       router.replace("/admin/dashboard");

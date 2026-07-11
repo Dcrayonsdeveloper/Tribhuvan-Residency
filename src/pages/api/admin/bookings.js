@@ -1,7 +1,10 @@
 import { getAllBookings, patchBooking, removeBooking } from "@/lib/bookings";
 import { toAdminBooking } from "@/lib/adminTransforms";
+import { requireAdmin } from "@/lib/adminSession";
 
 export default function handler(req, res) {
+  if (!requireAdmin(req, res)) return;
+
   if (req.method === "GET") {
     const bookings = getAllBookings().map(toAdminBooking);
     return res.status(200).json({ bookings });

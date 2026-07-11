@@ -1,23 +1,32 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { isAuthenticated } from "@/lib/adminAuth";
+import { checkAuth } from "@/lib/adminAuth";
 import AdminSidebar from "./AdminSidebar";
 import AdminHeader from "./AdminHeader";
 
 export default function AdminLayout({ children, title = "Dashboard" }) {
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
+  const [authed, setAuthed] = useState(false);
+  const [checking, setChecking] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    if (!isAuthenticated()) {
-      router.replace("/admin");
-    }
+    let active = true;
+    checkAuth().then((ok) => {
+      if (!active) return;
+      if (ok) {
+        setAuthed(true);
+        setChecking(false);
+      } else {
+        router.replace("/admin");
+      }
+    });
+    return () => {
+      active = false;
+    };
   }, [router]);
 
-  if (!mounted) return null;
-  if (!isAuthenticated()) return null;
+  if (checking || !authed) return null;
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">

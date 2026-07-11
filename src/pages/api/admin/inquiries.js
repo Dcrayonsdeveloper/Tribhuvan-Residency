@@ -3,8 +3,11 @@ import {
   patchInquiry,
   removeInquiry,
 } from "@/lib/inquiries";
+import { requireAdmin } from "@/lib/adminSession";
 
 export default function handler(req, res) {
+  if (!requireAdmin(req, res)) return;
+
   if (req.method === "GET") {
     return res.status(200).json({ inquiries: getAllInquiries() });
   }
